@@ -1,4 +1,4 @@
-### Jokes Application
+### ABN Recipe
 
 #### Global pre-requisites
 - [Node.js](https://nodejs.org/en/) (v12.x or higher, preferably latest LTS)
