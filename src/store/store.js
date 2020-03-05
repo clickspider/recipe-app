@@ -14,10 +14,8 @@ export const store = new Vuex.Store({
   plugins: [vuexLocalStorage.plugin],
   state: {
     // Use this to store your data
-    jokes: [],
-    favJokes: [],
+    favRecipes: [],
     token: null,
-    maxItemsInList: 10,
     userProfile: []
   },
 
@@ -33,49 +31,10 @@ export const store = new Vuex.Store({
 
     gotData(state, args) {
       if (args.statusText === "OK") {
-        const jokes = [...args.data.value];
-        jokes.forEach(joke => (joke.isLiked = false));
-        state.jokes = jokes;
+        state.favRecipes = args.data;
       } else {
-        state.jokes = args.status;
+        state.favRecipes = args.status;
       }
-    },
-
-    gotJoke(state, args) {
-      let joke = args.data.value[0];
-      let MAX = state.maxItemsInList - 1;
-      if (state.favJokes.length === 0) {
-        state.favJokes.push(joke);
-      } else if (state.favJokes.length <= MAX) {
-        const index = state.favJokes.findIndex(item => item === joke);
-        if (index === -1) {
-          state.favJokes.push(joke);
-        }
-      }
-    },
-
-    likeJoke(state, payload) {
-      const index = state.jokes.findIndex(item => item === payload);
-      state.jokes[index].isLiked = true;
-      state.favJokes.push(payload);
-    },
-
-    unLikeJoke(state, payload) {
-      // Romve item from favJokes
-      const indexFavJoke = state.favJokes.findIndex(item => item === payload);
-      if (indexFavJoke !== -1) {
-        state.favJokes.splice(indexFavJoke, 1);
-      }
-      // Update jokes
-      const indexJoke = state.jokes.findIndex(item => item === payload);
-      if (indexJoke !== -1) {
-        state.jokes[indexJoke].isLiked = false;
-      }
-    },
-
-    removeAllFav(state) {
-      state.jokes.forEach(joke => (joke.isLiked = false));
-      state.favJokes = [];
     },
 
     logUserOut(state) {
@@ -122,34 +81,12 @@ export const store = new Vuex.Store({
 
     async getData({ commit }) {
       try {
-        const GET_DATA = await axios.get("http://localhost:3000/jokes");
+        const GET_DATA = await axios.get("http://localhost:3000/");
 
         commit("gotData", GET_DATA);
       } catch (err) {
         commit("gotData", err);
       }
-    },
-
-    async getJoke({ commit }) {
-      try {
-        const GET_DATA = await axios.get("http://localhost:3000/joke");
-
-        commit("gotJoke", GET_DATA);
-      } catch (err) {
-        commit("gotJoke", err);
-      }
-    },
-
-    likeJoke({ commit }, payload) {
-      commit("likeJoke", payload);
-    },
-
-    unLikeJoke({ commit }, payload) {
-      commit("unLikeJoke", payload);
-    },
-
-    removeAllFav({ commit }, payload) {
-      commit("removeAllFav", payload);
     }
   },
 
@@ -161,15 +98,8 @@ export const store = new Vuex.Store({
     loggedIn: state => {
       return state.token !== null;
     },
-    jokes: state => {
-      return state.jokes;
-    },
-
-    favJokes: state => {
-      return state.favJokes;
-    },
-    maxItemsInList: state => {
-      return state.maxItemsInList;
+    favRecipes: state => {
+      return state.favRecipes;
     }
   }
 });
