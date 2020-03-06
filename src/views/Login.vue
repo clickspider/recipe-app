@@ -56,7 +56,7 @@
               <v-card-actions>
                 <v-spacer />
                 <v-btn
-                  :disabled="isOffline || loader"
+                  :disabled="loader"
                   color="#ffd200"
                   :loading="loader"
                   class="mr-5 mr-sm-5"

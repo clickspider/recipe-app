@@ -18,7 +18,7 @@
       <div class="flex-wrap">
         <v-btn
           :loading="loading"
-          :disabled="isOffline || loading"
+          :disabled="loading"
           color="#ffd200"
           class="mr-5 mr-sm-5"
           @click="loader = 'loading'"
@@ -44,7 +44,7 @@
 
         <v-btn
           :loading="loading"
-          :disabled="isOffline || loading"
+          :disabled="loading"
           color="#ffd200"
           to="/login"
           v-if="!loggedIn"

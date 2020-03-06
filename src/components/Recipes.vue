@@ -1,5 +1,19 @@
 <template>
   <section>
+    <create-recipe />
+    <v-btn
+      class="mx-2"
+      large
+      fixed
+      bottom
+      right
+      fab
+      dark
+      color="#017c72"
+      @click="openModalRecipe()"
+    >
+      <v-icon dark>mdi-plus</v-icon>
+    </v-btn>
     <h1 class="text-center my-5 display-2">
       Welcome back {{ userProfile.firstname }}!
     </h1>
@@ -17,8 +31,26 @@
       <v-row align="center" class="mx-0">
         <v-card-title>{{ recipe.label }}</v-card-title>
 
-        <v-btn class="ma-2" tile outlined color="success">
-          <v-icon left>mdi-pencil</v-icon> Edit
+        <v-btn
+          class="ma-2"
+          fab
+          outlined
+          small
+          color="success"
+          @click="openModalRecipe(recipe)"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+
+        <v-btn
+          class="ma-2"
+          fab
+          outlined
+          small
+          color="error"
+          @click="deleteRecipe(index)"
+        >
+          <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-row>
 
@@ -36,7 +68,7 @@
           <div class="grey--text ml-4">4.5 (413)</div>
         </v-row>
 
-        <p class="grey--text mt-5">{{ recipe.date }}</p>
+        <p class="grey--text mt-5">Created on {{ recipe.date }}</p>
 
         <div class="my-4 subtitle-1">
           <v-row align="center" class="mx-0">
@@ -75,20 +107,40 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import CreateRecipe from "@/components/CreateRecipe.vue";
 
 export default {
   name: "Recipes",
   props: ["loading"],
+  components: {
+    CreateRecipe
+  },
   data: () => ({}),
   computed: {
-    ...mapGetters(["favRecipes", "userProfile"])
+    ...mapGetters([
+      "favRecipes",
+      "userProfile",
+      "editRecipe",
+      "dialog",
+      "createRecipe"
+    ])
   },
   methods: {
-    ...mapActions(["getData", "retrieveProfile"]),
-    reserve() {
-      this.loading = true;
-
-      setTimeout(() => (this.loading = false), 2000);
+    ...mapActions([
+      "getData",
+      "retrieveProfile",
+      "updateEditRecipe",
+      "updateCreateRecipe",
+      "updateDialog",
+      "deleteRecipe"
+    ]),
+    openModalRecipe(recipe = []) {
+      this.updateDialog(true);
+      if (recipe.length === 0) {
+        this.updateCreateRecipe(true);
+      } else {
+        this.updateEditRecipe(recipe);
+      }
     }
   },
   created() {

@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
       {
         id: 1,
         label: "Cowboy Rib-Eye Steak",
-        date: "05‐03‐2020 11:03",
+        date: "03/06/2020 11:10:52",
         image:
           "https://www.edamam.com/web-img/69a/69a67f4147db9f27fd295be0c2ab06f8.jpg",
         ingredients: [
@@ -40,7 +40,7 @@ export const store = new Vuex.Store({
       {
         id: 2,
         label: "Individual vegetarian lasagnes",
-        date: "05‐03‐2020 13:00",
+        date: "03/06/2020 9:10:01",
         image:
           "https://www.edamam.com/web-img/775/7757b08b70371bcb03d3c10199e70e77.jpg",
         ingredients: [
@@ -65,7 +65,11 @@ export const store = new Vuex.Store({
       }
     ],
     token: null,
-    userProfile: []
+    userProfile: [],
+    dialog: false,
+    create: false,
+    createRecipe: false,
+    editRecipe: []
   },
 
   mutations: {
@@ -94,9 +98,33 @@ export const store = new Vuex.Store({
       state.favRecipes.push(payload);
     },
 
-    // updateRecipe(state, payload) {
-    //   // Add stuff
-    // }
+    updateRecipe(state, payload) {
+      const index = state.favRecipes.findIndex(
+        item => item === state.editRecipe
+      );
+      if (index !== -1) {
+        state.favRecipes[index] = payload;
+      } else {
+        console.error("UpdateRecipe - Can't find index");
+      }
+    },
+
+    updateEditRecipe(state, payload) {
+      state.editRecipe = payload;
+    },
+
+    updateCreateRecipe(state, payload) {
+      state.createRecipe = payload;
+    },
+
+    updateDialog(state, payload) {
+      state.dialog = payload;
+    },
+
+    deleteRecipe(state, payload) {
+      const index = state.favRecipes.findIndex(item => item === payload);
+      state.favRecipes.splice(index, 1);
+    }
   },
 
   actions: {
@@ -152,6 +180,22 @@ export const store = new Vuex.Store({
 
     updateRecipe({ commit }, payload) {
       commit("updateRecipe", payload);
+    },
+
+    updateEditRecipe({ commit }, payload) {
+      commit("updateEditRecipe", payload);
+    },
+
+    updateCreateRecipe({ commit }, payload) {
+      commit("updateCreateRecipe", payload);
+    },
+
+    updateDialog({ commit }, payload) {
+      commit("updateDialog", payload);
+    },
+
+    deleteRecipe({ commit }, payload) {
+      commit("deleteRecipe", payload);
     }
   },
 
@@ -165,6 +209,15 @@ export const store = new Vuex.Store({
     },
     favRecipes: state => {
       return state.favRecipes;
+    },
+    editRecipe: state => {
+      return state.editRecipe;
+    },
+    dialog: state => {
+      return state.dialog;
+    },
+    createRecipe: state => {
+      return state.createRecipe;
     }
   }
 });

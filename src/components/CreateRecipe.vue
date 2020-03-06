@@ -1,32 +1,19 @@
 <template>
   <v-row justify="center">
     <v-snackbar v-model="snackbar" fixed top right color="success">
-      <span>Recipe added successfuly!</span>
+      <span v-if="createRecipe">Recipe created successfuly!</span>
+      <span v-else>Recipe updated successfuly!</span>
       <v-icon dark>mdi-checkbox-marked-circle</v-icon>
     </v-snackbar>
 
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on }">
-        <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
-        <v-btn
-          class="mx-2"
-          large
-          fixed
-          bottom
-          right
-          fab
-          dark
-          color="#017c72"
-          v-on="on"
-        >
-          <v-icon dark>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-
       <v-form ref="form" v-model="form.valid" lazy-validation>
         <v-card>
-          <v-card-title>
-            <span class="headline">Create new recipe</span>
+          <v-card-title v-if="createRecipe">
+            <span class="headline">Create recipe</span>
+          </v-card-title>
+          <v-card-title v-else>
+            <span class="headline">Update recipe</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -36,7 +23,7 @@
                     label="Image url*"
                     :rules="rules.url"
                     required
-                    v-model="form.image"
+                    v-model="recipeEdit.image"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="12">
@@ -44,7 +31,7 @@
                     label="Instructions url*"
                     :rules="rules.url"
                     required
-                    v-model="form.url"
+                    v-model="recipeEdit.url"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -52,12 +39,12 @@
                     label="Headline*"
                     :rules="rules.label"
                     required
-                    v-model="form.label"
+                    v-model="recipeEdit.label"
                   ></v-text-field>
                 </v-col>
                 <v-col
                   cols="12"
-                  v-for="(ingredient, index) in form.ingredients"
+                  v-for="(ingredient, index) in recipeEdit.ingredients"
                   :key="index"
                 >
                   <v-btn
@@ -68,7 +55,7 @@
                     fab
                     dark
                     color="#017c72"
-                    @click="form.ingredients.push({ value: '' })"
+                    @click="recipeEdit.ingredients.push({ value: '' })"
                   >
                     <v-icon dark>mdi-plus</v-icon>
                   </v-btn>
@@ -81,15 +68,14 @@
                     fab
                     dark
                     color="red"
-                    v-if="form.ingredients.length > 1"
-                    @click="form.ingredients.splice(index, 1)"
+                    v-if="recipeEdit.ingredients.length > 1"
+                    @click="recipeEdit.ingredients.splice(index, 1)"
                   >
                     <v-icon dark>mdi-minus</v-icon>
                   </v-btn>
                   <v-text-field
                     label="Ingredients*"
                     required
-                    class="myInput"
                     v-model="ingredient.value"
                     :rules="rules.ingredients"
                     relative
@@ -99,7 +85,7 @@
                 <v-col cols="12" sm="6">
                   <v-select
                     :items="['1-2', '3-6', '7-10', '11+']"
-                    v-model="form.numOfPeople"
+                    v-model="recipeEdit.numOfPeople"
                     :rules="rules.numOfPeople"
                     label="Number of diners*"
                     required
@@ -107,7 +93,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-checkbox
-                    v-model="form.vegetarian"
+                    v-model="recipeEdit.vegetarian"
                     label="Vegetarian?"
                   ></v-checkbox>
                 </v-col>
@@ -117,8 +103,23 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="addNewRecipe">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="closeModalRecipe"
+              >Cancel</v-btn
+            >
+            <v-btn
+              v-if="createRecipe"
+              color="blue darken-1"
+              text
+              @click="addNewRecipe"
+              >CREATE</v-btn
+            >
+            <v-btn
+              v-else
+              color="blue darken-1"
+              text
+              @click="pushUpdate(recipeEdit)"
+              >Update</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-form>
@@ -127,12 +128,11 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 
 export default {
   name: "CreateRecipe",
-  props: ["loading"],
   data: () => ({
     form: {
       valid: true,
@@ -147,7 +147,6 @@ export default {
       vegetarian: null,
       numOfPeople: ""
     },
-    dialog: false,
     rules: {
       url: [v => !!v || "Url is required"],
       label: [v => !!v || "Headline is required"],
@@ -155,14 +154,47 @@ export default {
       numOfPeople: [v => !!v || "This feild is required"],
       vegetarian: [v => !!v || "This feild is required"]
     },
+    recipeEdit: [],
     snackbar: false
   }),
-  computed: {},
+  watch: {
+    dialog: function() {
+      const findIndex = this.favRecipes.findIndex(
+        item => item === this.editRecipe
+      );
+
+      if (findIndex !== -1) {
+        const recipe = JSON.parse(JSON.stringify(this.favRecipes[findIndex]));
+        this.recipeEdit = recipe;
+      } else {
+        this.recipeEdit = this.form;
+      }
+    }
+  },
+  computed: {
+    ...mapGetters([
+      "loading",
+      "favRecipes",
+      "editRecipe",
+      "dialog",
+      "createRecipe"
+    ])
+  },
   methods: {
-    ...mapActions(["pushRecipe"]),
+    ...mapActions([
+      "pushRecipe",
+      "updateRecipe",
+      "updateEditRecipe",
+      "updateCreateRecipe",
+      "updateDialog"
+    ]),
+    closeModalRecipe() {
+      this.$refs.form.resetValidation();
+      this.updateDialog(false);
+      this.updateCreateRecipe(false);
+      this.updateEditRecipe([]);
+    },
     addNewRecipe() {
-      // eslint-disable-next-line no-debugger
-      // debugger;
       const {
         image,
         url,
@@ -171,21 +203,44 @@ export default {
         vegetarian,
         numOfPeople
       } = this.form;
+      const newDate = new Date();
+      const date =
+        ("00" + (newDate.getMonth() + 1)).slice(-2) +
+        "/" +
+        ("00" + newDate.getDate()).slice(-2) +
+        "/" +
+        newDate.getFullYear() +
+        " " +
+        ("00" + newDate.getHours()).slice(-2) +
+        ":" +
+        ("00" + newDate.getMinutes()).slice(-2) +
+        ":" +
+        ("00" + newDate.getSeconds()).slice(-2);
       const recipe = {
         image,
         url,
         label,
         ingredients,
+        date,
         vegetarian,
         numOfPeople
       };
-      // this.pushRecipe(recipe);
       const formValid = this.$refs.form.validate();
       if (formValid) {
         this.pushRecipe(recipe);
         this.snackbar = true;
-        this.dialog = false;
+        this.closeModalRecipe();
         this.clear();
+      }
+    },
+    pushUpdate(updatedRecipe) {
+      const formValid = this.$refs.form.validate();
+      if (formValid) {
+        this.updateRecipe(updatedRecipe);
+        this.updateEditRecipe([]);
+        this.snackbar = true;
+        this.closeModalRecipe();
+        this.$router.go();
       }
     },
     clear() {
@@ -202,11 +257,8 @@ export default {
         vegetarian: null,
         numOfPeople: ""
       };
-
-      this.$refs.form.resetValidation();
     }
-  },
-  created() {}
+  }
 };
 </script>
 
