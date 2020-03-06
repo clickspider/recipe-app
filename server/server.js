@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
       date: "05‐03‐2020 11:03",
       image:
         "https://www.edamam.com/web-img/69a/69a67f4147db9f27fd295be0c2ab06f8.jpg",
-      ingredient: [
+      ingredients: [
         "1 3-pound bone-in rib-eye steak",
         "1 tablespoon cumin seed",
         "1 tablespoon coriander seed",
@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
       ],
       vegetarian: false,
       url: "https://www.marthastewart.com/867361/cowboy-ribeye-steak",
-      numOfPeople: 1
+      numOfPeople: "1-2"
     },
 
     {
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
       date: "05‐03‐2020 13:00",
       image:
         "https://www.edamam.com/web-img/775/7757b08b70371bcb03d3c10199e70e77.jpg",
-      ingredient: [
+      ingredients: [
         "1.2 kg cherry tomatoes",
         "5 sprigs of fresh thyme",
         "extra virgin olive oil",
@@ -53,7 +53,7 @@ app.get("/", (req, res) => {
       ],
       vegetarian: true,
       url: "https://www.jamieoliver.com/recipes/vegetables-recipes/",
-      numOfPeople: 1
+      numOfPeople: "1-2"
     }
   ];
 

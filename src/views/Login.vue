@@ -112,7 +112,7 @@ export default {
         this.loader = false;
         this.error = false;
         this.success = true;
-        this.$router.push({ name: "FavJokes" });
+        this.$router.push({ name: "home" });
       } catch (err) {
         setTimeout(() => {
           this.loader = false;

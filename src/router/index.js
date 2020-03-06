@@ -26,18 +26,6 @@ const routes = [
     meta: {
       requiredVisitor: true
     }
-  },
-  {
-    path: "/fav",
-    name: "FavJokes",
-    meta: {
-      requiresAuth: true
-    },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/FavJokes.vue")
   }
 ];
 
@@ -61,7 +49,7 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (store.getters.loggedIn) {
       next({
-        name: "FavJokes"
+        name: "home"
       });
     } else {
       next();

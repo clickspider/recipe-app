@@ -1,0 +1,123 @@
+<template>
+  <section>
+    <h1 class="text-center my-5 display-2">
+      Welcome back {{ userProfile.firstname }}!
+    </h1>
+    <h1 class="text-center my-5">Here is your favorite recipes</h1>
+
+    <v-card
+      v-for="(recipe, index) in favRecipes"
+      :key="index"
+      :loading="loading"
+      class="mx-auto my-12"
+      max-width="374"
+    >
+      <v-img height="250" :src="recipe.image"></v-img>
+
+      <v-row align="center" class="mx-0">
+        <v-card-title>{{ recipe.label }}</v-card-title>
+
+        <v-btn class="ma-2" tile outlined color="success">
+          <v-icon left>mdi-pencil</v-icon> Edit
+        </v-btn>
+      </v-row>
+
+      <v-card-text>
+        <v-row align="center" class="mx-0">
+          <v-rating
+            :value="4.5"
+            color="amber"
+            dense
+            half-increments
+            readonly
+            size="14"
+          ></v-rating>
+
+          <div class="grey--text ml-4">4.5 (413)</div>
+        </v-row>
+
+        <p class="grey--text mt-5">{{ recipe.date }}</p>
+
+        <div class="my-4 subtitle-1">
+          <v-row align="center" class="mx-0">
+            <v-icon v-if="recipe.vegetarian" color="green" class="mr-2">
+              mdi-leaf</v-icon
+            >
+            <span v-if="recipe.vegetarian">Vegetarian</span>
+            <v-icon v-else>mdi-leaf-off</v-icon>
+
+            <v-icon class="ml-3 mr-2">mdi-account-group</v-icon>
+            <span>{{ recipe.numOfPeople }}</span>
+          </v-row>
+        </div>
+
+        <v-list-item-group>
+          <v-list-item
+            v-for="(ingredient, i) in recipe.ingredients"
+            :key="i"
+            color="green"
+            :inactive="true"
+          >
+            {{ ingredient.value }}
+          </v-list-item>
+        </v-list-item-group>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-btn color="#ffd200" text :href="recipe.url">
+          instructions
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </section>
+</template>
+
+<script>
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
+
+export default {
+  name: "Recipes",
+  props: ["loading"],
+  data: () => ({}),
+  computed: {
+    ...mapGetters(["favRecipes", "userProfile"])
+  },
+  methods: {
+    ...mapActions(["getData", "retrieveProfile"]),
+    reserve() {
+      this.loading = true;
+
+      setTimeout(() => (this.loading = false), 2000);
+    }
+  },
+  created() {
+    this.retrieveProfile();
+  }
+};
+</script>
+
+<style lang="scss">
+.card-title {
+  background: radial-gradient(black, #00000014);
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.jokes-card {
+  text-align: center;
+
+  width: 400px;
+  margin-top: 30px;
+}
+
+.display-none {
+  display: none;
+}
+
+.active {
+  display: inline-block !important;
+}
+</style>

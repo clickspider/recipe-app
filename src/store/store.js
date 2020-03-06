@@ -14,7 +14,56 @@ export const store = new Vuex.Store({
   plugins: [vuexLocalStorage.plugin],
   state: {
     // Use this to store your data
-    favRecipes: [],
+    favRecipes: [
+      {
+        id: 1,
+        label: "Cowboy Rib-Eye Steak",
+        date: "05‐03‐2020 11:03",
+        image:
+          "https://www.edamam.com/web-img/69a/69a67f4147db9f27fd295be0c2ab06f8.jpg",
+        ingredients: [
+          { value: "1 3-pound bone-in rib-eye steak" },
+          { value: "1 tablespoon cumin seed" },
+          { value: "1 tablespoon coriander seed" },
+          { value: "2 teaspoons black peppercorns" },
+          { value: "2 tablespoons coarse salt" },
+          { value: "1 tablespoon sweet paprika" },
+          { value: "2 tablespoons light brown sugar" },
+          { value: "2 tablespoons finely chopped oregano" },
+          { value: "5 cloves garlic, minced" }
+        ],
+        vegetarian: false,
+        url: "https://www.marthastewart.com/867361/cowboy-ribeye-steak",
+        numOfPeople: "1-2"
+      },
+
+      {
+        id: 2,
+        label: "Individual vegetarian lasagnes",
+        date: "05‐03‐2020 13:00",
+        image:
+          "https://www.edamam.com/web-img/775/7757b08b70371bcb03d3c10199e70e77.jpg",
+        ingredients: [
+          { value: "1.2 kg cherry tomatoes" },
+          { value: "5 sprigs of fresh thyme" },
+          { value: "extra virgin olive oil" },
+          { value: "2 shallots" },
+          { value: "2 cloves of garlic" },
+          { value: "500 g baby spinach" },
+          { value: "8-12 fresh or dried lasagne sheets" },
+          { value: "350 g ricotta cheese" },
+          { value: "WHITE SAUCE" },
+          { value: "600 ml milk" },
+          { value: "25 g unsalted butter" },
+          { value: "2 heaped tablespoons flour" },
+          { value: "150 g vegetarian sharp, mature cheese" },
+          { value: "100 g mozzarella" }
+        ],
+        vegetarian: true,
+        url: "https://www.jamieoliver.com/recipes/vegetables-recipes/",
+        numOfPeople: "1-2"
+      }
+    ],
     token: null,
     userProfile: []
   },
@@ -39,7 +88,15 @@ export const store = new Vuex.Store({
 
     logUserOut(state) {
       (state.userProfile = []), (state.token = null);
-    }
+    },
+
+    pushRecipe(state, payload) {
+      state.favRecipes.push(payload);
+    },
+
+    // updateRecipe(state, payload) {
+    //   // Add stuff
+    // }
   },
 
   actions: {
@@ -87,6 +144,14 @@ export const store = new Vuex.Store({
       } catch (err) {
         commit("gotData", err);
       }
+    },
+
+    pushRecipe({ commit }, payload) {
+      commit("pushRecipe", payload);
+    },
+
+    updateRecipe({ commit }, payload) {
+      commit("updateRecipe", payload);
     }
   },
 

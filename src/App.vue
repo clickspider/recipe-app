@@ -17,36 +17,9 @@
       <v-spacer></v-spacer>
       <div class="flex-wrap">
         <v-btn
-          color="error"
-          class="mr-5 mr-sm-5"
-          @click="cancelTimer()"
-          v-if="isFetching && loggedIn"
-        >
-          Timer Off <v-icon> mdi-pause </v-icon>
-          <template v-slot:loader>
-            <span class="custom-loader">
-              <v-icon light> mdi-pause </v-icon>
-            </span>
-          </template>
-        </v-btn>
-        <v-btn
-          color="success"
-          class="mr-5 mr-sm-5"
-          @click="startTimer()"
-          v-if="!isFetching && loggedIn"
-        >
-          Timer On <v-icon> mdi-play </v-icon>
-          <template v-slot:loader>
-            <span class="custom-loader">
-              <v-icon light> mdi-play </v-icon>
-            </span>
-          </template>
-        </v-btn>
-
-        <v-btn
           :loading="loading"
           :disabled="isOffline || loading"
-          color="#0cc"
+          color="#ffd200"
           class="mr-5 mr-sm-5"
           @click="loader = 'loading'"
           v-if="loggedIn"
@@ -166,12 +139,7 @@ export default {
 
   created() {
     setTimeout(async () => {
-      if (this.$data.isOnline) {
-        await this.getData();
-        this.loading = false;
-      } else {
-        this.loading = false;
-      }
+      this.loading = false;
     }, 1000);
   },
 
@@ -180,16 +148,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getData", "getJoke", "logUserOut"]),
-    startTimer() {
-      this.timer = setInterval(this.getJoke, 5000);
-      this.isFetching = true;
-    },
-    cancelTimer() {
-      clearInterval(this.timer);
-      this.timer = "";
-      this.isFetching = false;
-    },
+    ...mapActions(["logUserOut"]),
     logOut() {
       this.logUserOut();
       this.$router.push({ name: "Login" });
