@@ -29,7 +29,9 @@
       <v-img height="250" :src="recipe.image"></v-img>
 
       <v-row align="center" class="mx-0">
-        <v-card-title>{{ recipe.label }}</v-card-title>
+        <v-card-title class="title">
+          <span class="title__overflow">{{ recipe.label }}</span>
+        </v-card-title>
 
         <v-btn
           class="ma-2"
@@ -75,7 +77,6 @@
             <v-icon v-if="recipe.vegetarian" color="green" class="mr-2">
               mdi-leaf</v-icon
             >
-            <span v-if="recipe.vegetarian">Vegetarian</span>
             <v-icon v-else>mdi-leaf-off</v-icon>
 
             <v-icon class="ml-3 mr-2">mdi-account-group</v-icon>
@@ -150,15 +151,16 @@ export default {
 </script>
 
 <style lang="scss">
-.card-title {
-  background: radial-gradient(black, #00000014);
-  color: #fff;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+.title {
+  max-width: 250px;
+  &__overflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
-.jokes-card {
+.recipe-card {
   text-align: center;
 
   width: 400px;

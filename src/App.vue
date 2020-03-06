@@ -5,7 +5,7 @@
 
       <div class="d-flex align-center">
         <v-img
-          alt="Frontmen Logo"
+          alt="ABN-AMRO LOGO"
           class="shrink mr-2 d-none d-md-block"
           contain
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/ABN-AMRO_Logo_new_colors.svg/1200px-ABN-AMRO_Logo_new_colors.svg.png"
@@ -102,7 +102,7 @@
     <v-content>
       <div v-if="loading">
         <v-skeleton-loader
-          class="mx-auto jokes-card"
+          class="mx-auto recipe-card"
           max-width="400"
           style="margin: 64px 0px 0px;"
           type="card"
@@ -130,8 +130,7 @@ export default {
       group: null,
       timer: "",
       itemsUserIn: [
-        { title: "Dashboard", icon: "mdi-view-dashboard", url: "/" },
-        { title: "Liked-Jokes", icon: "mdi-heart", url: "/fav" }
+        { title: "Dashboard", icon: "mdi-view-dashboard", url: "/" }
       ],
       itemsUserOut: [{ title: "Login", icon: "mdi-login", url: "/" }]
     };
@@ -144,7 +143,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["favJokes", "loggedIn"])
+    ...mapGetters(["loggedIn"])
   },
 
   methods: {

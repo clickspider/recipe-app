@@ -7,6 +7,7 @@ import { store } from "./store/store";
 import axios from "axios";
 import VueOffline from "vue-offline";
 
+// Added this package in case I would like to use it for a feature.
 Vue.use(VueOffline);
 
 Vue.config.productionTip = false;
