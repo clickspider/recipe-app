@@ -10,7 +10,6 @@
 2. Navigate to the repository's root directory and run the following commands:
 ```
 npm install
-npm run server
 npm run serve
 ```
 
