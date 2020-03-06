@@ -205,9 +205,9 @@ export default {
       } = this.form;
       const newDate = new Date();
       const date =
-        ("00" + (newDate.getMonth() + 1)).slice(-2) +
-        "/" +
         ("00" + newDate.getDate()).slice(-2) +
+        "/" +
+        ("00" + (newDate.getMonth() + 1)).slice(-2) +
         "/" +
         newDate.getFullYear() +
         " " +

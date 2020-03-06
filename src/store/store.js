@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
       {
         id: 1,
         label: "Cowboy Rib-Eye Steak",
-        date: "03/06/2020 11:10:52",
+        date: "06/03/2020 11:10:52",
         image:
           "https://www.edamam.com/web-img/69a/69a67f4147db9f27fd295be0c2ab06f8.jpg",
         ingredients: [
@@ -40,7 +40,7 @@ export const store = new Vuex.Store({
       {
         id: 2,
         label: "Individual vegetarian lasagnes",
-        date: "03/06/2020 9:10:01",
+        date: "06/03/2020 9:10:01",
         image:
           "https://www.edamam.com/web-img/775/7757b08b70371bcb03d3c10199e70e77.jpg",
         ingredients: [
