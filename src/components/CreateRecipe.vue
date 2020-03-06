@@ -237,9 +237,8 @@ export default {
       const formValid = this.$refs.form.validate();
       if (formValid) {
         this.updateRecipe(updatedRecipe);
-        this.updateEditRecipe([]);
-        this.snackbar = true;
         this.closeModalRecipe();
+        this.snackbar = true;
         this.$router.go();
       }
     },
