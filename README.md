@@ -18,20 +18,22 @@ npm run serve
 ## Conclusions
 I ended up spending a total of around 6 hours on this assignment.
 
-After performing this assignment, I realized that the JS community is moving very fast toward TypeScript, yet traditional tools are still widely used. These tools are not well-adapted to use TypeScript. This can especially be felt when performing tests. Good examples are Mongoose and barebones Express which are very hard to interface with testing frameworks. Using TypeScript-era tooling makes testing a lot easier. Altough I'm no familiar with TypeScript I'm ready to learn and adopt it.
+After performing this assignment, I realized that the JS community is moving very fast toward TypeScript, yet traditional tools are still widely used. These tools are not well-adapted to use TypeScript. This can especially be felt when performing tests. Good examples are Mongoose and barebones Express which are very hard to interface with testing frameworks. Using TypeScript-era tooling makes testing a lot easier. Although I'm not familiar with TypeScript I'm ready to learn and adapt.
 
 
 ## Decisions
 
-- **Project structure:** I tried to minimize over-engineering, but at the same time demonstrate the structure of a Vue.js application that is comfortable to built upon and scale. This resembles of the MVVM pattern. In case I would've built the API I would use the Controller/Service pattern and I would consider choosing a framework such as NestJS (based on Express) which makes this a lot easier to build/maintain and especially easier to test.
+- **Project structure:** I tried to minimize over-engineering, but at the same time demonstrate the structure of a Vue.js application that is comfortable to build upon and scale. This resembles the MVVM pattern. In case I would've built the API I would use the Controller/Service pattern and I would consider choosing a framework such as NestJS (based on Express) which makes this a lot easier to build/maintain and especially easier to test.
 
-- **Logging:** The application features one log level. In a production-ready application I would include several levels of verbosity (environment-dependant) and possibly external logging services for alerts.
+- **Logging:** The application features one log level. In a production-ready application, I would include several levels of verbosity (environment-dependent) and possibly external logging services for alerts.
 
-Although in a real application I would most likely create a middleware to simplify the API of logging errors, as this one can easily get over-bloated.
+Although in a real application I would most likely use a middleware to simplify the API of logging errors, as this one can easily get over-bloated.
 
-- **Run mode:** The application runs in development mode. In a production-ready application I would set up configurations for different environments, and utilise environment variables.
+- **UX/UI:** For the sake of simplicity, I used Vuetify (Material Design component framework for Vue.js).
 
-- **Testing:** Due to limited time, I did not cover the application with tests. However, it is something I'm willing to work on as well as learn and adopt.
+- **Run mode:** The application runs in development mode. In a production-ready application, I would set up configurations for different environments, and utilize environment variables.
+
+- **Testing:** Due to limited time, I did not cover the application with tests. However, it is something I'm willing to work on as well as learn and adapt.
 
 
 ### Demo images
