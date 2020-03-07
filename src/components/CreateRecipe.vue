@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-snackbar v-model="snackbar" fixed top right color="success">
-      <span v-if="createRecipe">Recipe created successfuly!</span>
+      <span v-if="editRecipe.length === 0">Recipe created successfuly!</span>
       <span v-else>Recipe updated successfuly!</span>
       <v-icon dark>mdi-checkbox-marked-circle</v-icon>
     </v-snackbar>
@@ -9,7 +9,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-form ref="form" v-model="form.valid" lazy-validation>
         <v-card>
-          <v-card-title v-if="createRecipe">
+          <v-card-title v-if="editRecipe.length === 0">
             <span class="headline">Create recipe</span>
           </v-card-title>
           <v-card-title v-else>
@@ -23,6 +23,7 @@
                     label="Image url*"
                     :rules="rules.url"
                     required
+                    color="#017c72"
                     v-model="recipeEdit.image"
                   ></v-text-field>
                 </v-col>
@@ -31,6 +32,7 @@
                     label="Instructions url*"
                     :rules="rules.url"
                     required
+                    color="#017c72"
                     v-model="recipeEdit.url"
                   ></v-text-field>
                 </v-col>
@@ -39,6 +41,7 @@
                     label="Headline*"
                     :rules="rules.label"
                     required
+                    color="#017c72"
                     v-model="recipeEdit.label"
                   ></v-text-field>
                 </v-col>
@@ -79,6 +82,7 @@
                     v-model="ingredient.value"
                     :rules="rules.ingredients"
                     relative
+                    color="#017c72"
                   >
                   </v-text-field>
                 </v-col>
@@ -87,6 +91,7 @@
                     :items="['1-2', '3-6', '7-10', '11+']"
                     v-model="recipeEdit.numOfPeople"
                     :rules="rules.numOfPeople"
+                    color="#017c72"
                     label="Number of diners*"
                     required
                   ></v-select>
@@ -95,6 +100,7 @@
                   <v-checkbox
                     v-model="recipeEdit.vegetarian"
                     label="Vegetarian?"
+                    color="#017c72"
                   ></v-checkbox>
                 </v-col>
               </v-row>
@@ -103,23 +109,17 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeModalRecipe"
-              >Cancel</v-btn
-            >
+            <v-btn text @click="closeModalRecipe" color="error">Cancel</v-btn>
             <v-btn
-              v-if="createRecipe"
-              color="blue darken-1"
+              v-if="editRecipe.length === 0"
               text
+              color="#017c72"
               @click="addNewRecipe"
               >CREATE</v-btn
             >
-            <v-btn
-              v-else
-              color="blue darken-1"
-              text
-              @click="pushUpdate(recipeEdit)"
-              >Update</v-btn
-            >
+            <v-btn v-else text color="#017c72" @click="pushUpdate(recipeEdit)">
+              Update
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -162,36 +162,31 @@ export default {
       const findIndex = this.favRecipes.findIndex(
         item => item === this.editRecipe
       );
-
+      // Check if editRecipe from Vuex given/found
       if (findIndex !== -1) {
+        // Make a deep copy from Vuex
         const recipe = JSON.parse(JSON.stringify(this.favRecipes[findIndex]));
+        // Then set it euqal in our data for reactivity
         this.recipeEdit = recipe;
       } else {
+        // In case there is no found, it means we are in 'create'
         this.recipeEdit = this.form;
       }
     }
   },
   computed: {
-    ...mapGetters([
-      "loading",
-      "favRecipes",
-      "editRecipe",
-      "dialog",
-      "createRecipe"
-    ])
+    ...mapGetters(["loading", "favRecipes", "editRecipe", "dialog"])
   },
   methods: {
     ...mapActions([
-      "pushRecipe",
-      "updateRecipe",
-      "updateEditRecipe",
-      "updateCreateRecipe",
+      "pushNewRecipe",
+      "updateRecipe", // Within favRecipes [state mutation]
+      "updateEditRecipe", // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
       "updateDialog"
     ]),
     closeModalRecipe() {
       this.$refs.form.resetValidation();
       this.updateDialog(false);
-      this.updateCreateRecipe(false);
       this.updateEditRecipe([]);
     },
     addNewRecipe() {
@@ -227,8 +222,8 @@ export default {
       };
       const formValid = this.$refs.form.validate();
       if (formValid) {
-        this.pushRecipe(recipe);
         this.snackbar = true;
+        this.pushNewRecipe(recipe);
         this.closeModalRecipe();
         this.clear();
       }
@@ -236,10 +231,12 @@ export default {
     pushUpdate(updatedRecipe) {
       const formValid = this.$refs.form.validate();
       if (formValid) {
-        this.updateRecipe(updatedRecipe);
-        this.closeModalRecipe();
         this.snackbar = true;
-        this.$router.go();
+        this.updateRecipe(updatedRecipe);
+        setTimeout(() => {
+          this.snackbar = false;
+          this.closeModalRecipe();
+        }, 1000);
       }
     },
     clear() {

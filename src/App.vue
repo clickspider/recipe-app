@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="#fff" light class="main-header">
+    <v-app-bar app color="#fff" light>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
       <div class="d-flex align-center">
@@ -126,9 +126,7 @@ export default {
       loader: null,
       loading: true,
       drawer: false,
-      isFetching: false,
       group: null,
-      timer: "",
       itemsUserIn: [
         { title: "Dashboard", icon: "mdi-view-dashboard", url: "/" }
       ],
@@ -156,11 +154,7 @@ export default {
 
   watch: {
     loader() {
-      const l = this.loader;
-      this[l] = !this[l];
       this.$router.go();
-      setTimeout(() => (this[l] = false), 3000);
-      this.loader = null;
     },
     group() {
       this.drawer = false;

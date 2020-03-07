@@ -1,9 +1,9 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-content>
       <v-container fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4" :loading="true">
+          <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
               <v-toolbar color="#017c72" dark flat>
                 <v-toolbar-title>Login</v-toolbar-title>
@@ -38,12 +38,11 @@
                   />
 
                   <v-text-field
-                    id="password"
                     label="Password"
                     name="password"
                     :rules="passRules"
-                    color="#017c72"
                     v-model="password"
+                    color="#017c72"
                     prepend-icon="mdi-lock"
                     :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="show = !show"

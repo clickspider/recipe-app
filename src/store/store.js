@@ -67,9 +67,7 @@ export const store = new Vuex.Store({
     token: null,
     userProfile: [],
     dialog: false,
-    create: false,
-    createRecipe: false,
-    editRecipe: []
+    editRecipe: [] // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
   },
 
   mutations: {
@@ -94,7 +92,7 @@ export const store = new Vuex.Store({
       (state.userProfile = []), (state.token = null);
     },
 
-    pushRecipe(state, payload) {
+    pushNewRecipe(state, payload) {
       state.favRecipes.push(payload);
     },
 
@@ -103,7 +101,7 @@ export const store = new Vuex.Store({
         item => item === state.editRecipe
       );
       if (index !== -1) {
-        state.favRecipes[index] = payload;
+        state.favRecipes.splice(index, 1, payload);
       } else {
         console.error("UpdateRecipe - Can't find index");
       }
@@ -111,10 +109,6 @@ export const store = new Vuex.Store({
 
     updateEditRecipe(state, payload) {
       state.editRecipe = payload;
-    },
-
-    updateCreateRecipe(state, payload) {
-      state.createRecipe = payload;
     },
 
     updateDialog(state, payload) {
@@ -174,8 +168,8 @@ export const store = new Vuex.Store({
       }
     },
 
-    pushRecipe({ commit }, payload) {
-      commit("pushRecipe", payload);
+    pushNewRecipe({ commit }, payload) {
+      commit("pushNewRecipe", payload);
     },
 
     updateRecipe({ commit }, payload) {
@@ -184,10 +178,6 @@ export const store = new Vuex.Store({
 
     updateEditRecipe({ commit }, payload) {
       commit("updateEditRecipe", payload);
-    },
-
-    updateCreateRecipe({ commit }, payload) {
-      commit("updateCreateRecipe", payload);
     },
 
     updateDialog({ commit }, payload) {
@@ -215,9 +205,6 @@ export const store = new Vuex.Store({
     },
     dialog: state => {
       return state.dialog;
-    },
-    createRecipe: state => {
-      return state.createRecipe;
     }
   }
 });

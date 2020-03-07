@@ -118,28 +118,19 @@ export default {
   },
   data: () => ({}),
   computed: {
-    ...mapGetters([
-      "favRecipes",
-      "userProfile",
-      "editRecipe",
-      "dialog",
-      "createRecipe"
-    ])
+    ...mapGetters(["favRecipes", "userProfile", "editRecipe", "dialog"])
   },
   methods: {
     ...mapActions([
       "getData",
       "retrieveProfile",
-      "updateEditRecipe",
-      "updateCreateRecipe",
+      "updateEditRecipe", // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
       "updateDialog",
       "deleteRecipe"
     ]),
     openModalRecipe(recipe = []) {
       this.updateDialog(true);
-      if (recipe.length === 0) {
-        this.updateCreateRecipe(true);
-      } else {
+      if (recipe.length !== 0) {
         this.updateEditRecipe(recipe);
       }
     }
