@@ -169,7 +169,7 @@ export default {
         // Then set it euqal in our data for reactivity
         this.recipeEdit = recipe;
       } else {
-        // In case there is no found, it means we are in 'create'
+        // In case there is no index found, it means we are in 'create'
         this.recipeEdit = this.form;
       }
     }
@@ -185,8 +185,8 @@ export default {
       "updateDialog"
     ]),
     closeModalRecipe() {
-      this.$refs.form.resetValidation();
       this.updateDialog(false);
+      this.$refs.form.resetValidation();
       this.updateEditRecipe([]);
     },
     addNewRecipe() {
