@@ -103,7 +103,7 @@ export const store = new Vuex.Store({
       if (index !== -1) {
         state.favRecipes.splice(index, 1, payload);
       } else {
-        console.error("UpdateRecipe - Can't find index");
+        console.error("UpdateRecipe - Can't find index.");
       }
     },
 
@@ -117,7 +117,11 @@ export const store = new Vuex.Store({
 
     deleteRecipe(state, payload) {
       const index = state.favRecipes.findIndex(item => item === payload);
-      state.favRecipes.splice(index, 1);
+      if (index !== -1) {
+        state.favRecipes.splice(index, 1);
+      } else {
+        console.error("Can't find index to delete.");
+      }
     }
   },
 
