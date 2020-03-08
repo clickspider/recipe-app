@@ -50,7 +50,7 @@
           outlined
           small
           color="error"
-          @click="deleteRecipe(index)"
+          @click="deleteRecipe(recipe)"
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
