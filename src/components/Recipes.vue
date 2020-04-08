@@ -116,7 +116,6 @@ export default {
   components: {
     CreateRecipe
   },
-  data: () => ({}),
   computed: {
     ...mapGetters(["favRecipes", "userProfile", "editRecipe", "dialog"])
   },
@@ -153,7 +152,6 @@ export default {
 
 .recipe-card {
   text-align: center;
-
   width: 400px;
   margin-top: 30px;
 }
