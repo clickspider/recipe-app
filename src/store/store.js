@@ -344,7 +344,7 @@ export const store = new Vuex.Store({
           .database()
           .ref("recipes")
           .child(payload.id)
-          .delete(payload);
+          .remove();
         commit("setSuccess", "You have deleted your recipe successfully!");
         commit("setLoading", false);
         commit("deleteRecipe", payload);

@@ -25,7 +25,7 @@
                       id="email"
                       v-model="email"
                       type="email"
-                      :rules="nameRules"
+                      :rules="emailRules"
                       required
                     ></v-text-field>
                   </v-flex>
@@ -80,16 +80,14 @@ export default {
     return {
       show: false,
       email: "",
-      nameRules: [v => !!v || "User Name is required"],
+      emailRules: [
+        v => !!v || "User Name is required",
+        v =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "E-mail must be valid"
+      ],
       password: "",
-      passRules: [
-        v => !!v || "Password is required",
-        v =>
-          (v && v.length <= 32) || "Password must be less than 32 characters",
-        v =>
-          !/^(?:(\w)\1+)+$/.test(v) ||
-          "Passwords must contain at least two non-overlapping pairs of letters"
-      ]
+      passRules: [v => !!v || "Password is required"]
     };
   },
   computed: {

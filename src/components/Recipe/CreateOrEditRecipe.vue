@@ -15,7 +15,7 @@
                 <v-col cols="12" sm="6" md="12">
                   <v-file-input
                     v-if="editRecipe.length === 0"
-                    :rules="rules.image"
+                    :rules="[rules.image]"
                     v-model="recipe.image"
                     :show-size="true"
                     color="#017c72"
@@ -31,7 +31,7 @@
                     :error-messages="
                       !recipe.image && !recipe.imageUrl ? error : ''
                     "
-                    :rules="recipe.image ? editRules.image : []"
+                    :rules="recipe.image ? [editRules.image] : []"
                     v-model="recipe.image"
                     :show-size="true"
                     color="#017c72"
@@ -46,7 +46,8 @@
                 <v-col cols="12" sm="6" md="12">
                   <v-text-field
                     label="Instructions url*"
-                    :rules="rules.url"
+                    :rules="[rules.url]"
+                    :error-messages="validURL"
                     prepend-icon="mdi-link"
                     required
                     color="#017c72"
@@ -56,7 +57,7 @@
                 <v-col cols="12">
                   <v-text-field
                     label="Headline*"
-                    :rules="rules.label"
+                    :rules="[rules.label]"
                     prepend-icon="mdi-page-layout-header"
                     required
                     color="#017c72"
@@ -99,7 +100,7 @@
                     prepend-icon="mdi-page-layout-body"
                     required
                     v-model="ingredient.value"
-                    :rules="rules.ingredients"
+                    :rules="[rules.ingredients]"
                     relative
                     color="#017c72"
                   >
@@ -110,7 +111,7 @@
                     :items="['1-2', '3-6', '7-10', '11+']"
                     v-model="recipe.numOfPeople"
                     prepend-icon="mdi-account-group"
-                    :rules="rules.numOfPeople"
+                    :rules="[rules.numOfPeople]"
                     color="#017c72"
                     label="Number of diners*"
                     required
@@ -163,10 +164,7 @@ export default {
   data: () => ({
     recipe: [], // this will be either 'create' / 'editRecipe'
     rules: {
-      url: [
-        v => !!v || "Url is required",
-        v => !v || v.length >= 3 || "Minimum length is 3 characters"
-      ],
+      url: [v => !!v || "Url is required"],
       label: [
         v => !!v || "Headline is required",
         v => !v || v.length >= 3 || "Minimum length is 3 characters"
@@ -232,6 +230,23 @@ export default {
 
     isChange() {
       return JSON.stringify(this.editRecipe) === JSON.stringify(this.recipe);
+    },
+
+    validURL() {
+      const pattern = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$",
+        "i"
+      ); // fragment locator
+      if (this.recipe.url !== "") {
+        return pattern.test(this.recipe.url) ? "" : "Enter a valid URL!";
+      } else {
+        return "";
+      }
     },
 
     getDialog: {

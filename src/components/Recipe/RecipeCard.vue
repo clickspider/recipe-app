@@ -72,7 +72,13 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="#ffd200" text :href="recipe.url">
+      <v-btn
+        color="#ffd200"
+        text
+        target="_blank"
+        rel="noopener"
+        :href="'//' + recipe.url"
+      >
         instructions
       </v-btn>
     </v-card-actions>
