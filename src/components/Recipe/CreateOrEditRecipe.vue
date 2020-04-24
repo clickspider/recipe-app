@@ -15,7 +15,7 @@
                 <v-col cols="12" sm="6" md="12">
                   <v-file-input
                     v-if="editRecipe.length === 0"
-                    :rules="[rules.image]"
+                    :rules="rules.image"
                     v-model="recipe.image"
                     :show-size="true"
                     color="#017c72"
@@ -31,7 +31,7 @@
                     :error-messages="
                       !recipe.image && !recipe.imageUrl ? error : ''
                     "
-                    :rules="recipe.image ? [editRules.image] : []"
+                    :rules="recipe.image ? editRules.image : []"
                     v-model="recipe.image"
                     :show-size="true"
                     color="#017c72"
@@ -46,7 +46,7 @@
                 <v-col cols="12" sm="6" md="12">
                   <v-text-field
                     label="Instructions url*"
-                    :rules="[rules.url]"
+                    :rules="rules.url"
                     :error-messages="validURL"
                     prepend-icon="mdi-link"
                     required
@@ -57,7 +57,7 @@
                 <v-col cols="12">
                   <v-text-field
                     label="Headline*"
-                    :rules="[rules.label]"
+                    :rules="rules.label"
                     prepend-icon="mdi-page-layout-header"
                     required
                     color="#017c72"
@@ -100,7 +100,7 @@
                     prepend-icon="mdi-page-layout-body"
                     required
                     v-model="ingredient.value"
-                    :rules="[rules.ingredients]"
+                    :rules="rules.ingredients"
                     relative
                     color="#017c72"
                   >
@@ -111,7 +111,7 @@
                     :items="['1-2', '3-6', '7-10', '11+']"
                     v-model="recipe.numOfPeople"
                     prepend-icon="mdi-account-group"
-                    :rules="[rules.numOfPeople]"
+                    :rules="rules.numOfPeople"
                     color="#017c72"
                     label="Number of diners*"
                     required
