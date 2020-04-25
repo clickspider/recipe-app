@@ -117,12 +117,10 @@ export default {
     ...mapActions(["signUserUp", "clearError"]),
     onSignup() {
       const validate = this.$refs.form.validate();
+      const { email, password } = this;
       validate && this.email !== "" && this.password !== ""
-        ? this.signUserUp({ email: this.email, password: this.password })
+        ? this.signUserUp({ email, password })
         : false;
-    },
-    onDismissed() {
-      this.clearError();
     }
   }
 };

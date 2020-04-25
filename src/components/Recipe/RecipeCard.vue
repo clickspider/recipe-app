@@ -31,13 +31,15 @@
         <v-icon>mdi-delete</v-icon>
       </v-btn>
 
-      <v-btn icon v-if="loggedIn && !isLiked" @click="likeRecipe(recipe)">
+      <!-- Liking System: Need to work on -->
+
+      <!-- <v-btn icon v-if="loggedIn && !isLiked" @click="likeRecipe(recipe)">
         <v-icon>mdi-heart-outline</v-icon>
       </v-btn>
 
       <v-btn icon @click="dislikeRecipe(recipe)" v-if="loggedIn && isLiked">
         <v-icon dark>mdi-heart</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-row>
 
     <v-card-text>
@@ -115,8 +117,11 @@ export default {
     },
 
     isLiked() {
+      if (!this.loggedIn) {
+        return false;
+      }
       const index = this.user.favRecipes.findIndex(
-        recipe => recipe === this.recipe
+        recipe => recipe.id === this.recipe.id
       );
       return index !== -1 ? true : false;
     }
@@ -124,14 +129,14 @@ export default {
 
   methods: {
     ...mapActions([
-      "updateDialog",
+      "setDialog",
       "updateEditRecipe",
       "deleteRecipe",
       "dislikeRecipe",
       "likeRecipe"
     ]),
     openModalRecipe(recipe) {
-      this.updateDialog(true);
+      this.setDialog(true);
       this.updateEditRecipe(recipe);
     }
   }

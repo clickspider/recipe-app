@@ -14,7 +14,8 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import(/* webpackChunkName: "about" */ "../views/Home.vue"),
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Home.vue"),
     meta: {
       requiredVisitor: true
     }

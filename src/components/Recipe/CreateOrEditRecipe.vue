@@ -3,7 +3,7 @@
     <v-dialog v-model="getDialog" persistent max-width="600px">
       <v-form ref="form" lazy-validation>
         <v-card>
-          <v-card-title v-if="editRecipe.length === 0">
+          <v-card-title v-if="createOrEdit === 'create'">
             <span class="headline">Create recipe</span>
           </v-card-title>
           <v-card-title v-else>
@@ -14,9 +14,9 @@
               <v-row>
                 <v-col cols="12" sm="6" md="12">
                   <v-file-input
-                    v-if="editRecipe.length === 0"
+                    v-if="createOrEdit === 'create'"
                     :rules="rules.image"
-                    v-model="recipe.image"
+                    :error-messages="error"
                     :show-size="true"
                     color="#017c72"
                     accept="image/*"
@@ -26,17 +26,15 @@
                     label="Recipe Image"
                     required
                   ></v-file-input>
+
                   <v-file-input
                     v-else
-                    :error-messages="
-                      !recipe.image && !recipe.imageUrl ? error : ''
-                    "
+                    :error-messages="error"
                     :rules="recipe.image ? editRules.image : []"
-                    v-model="recipe.image"
                     :show-size="true"
                     color="#017c72"
                     accept="image/*"
-                    placeholder="Pick an recipe image"
+                    placeholder="Update an recipe image"
                     prepend-icon="mdi-camera"
                     @change="onFilePicked"
                     label="Recipe Image"
@@ -133,7 +131,7 @@
             <v-spacer></v-spacer>
             <v-btn text @click="closeModalRecipe" color="error">Cancel</v-btn>
             <v-btn
-              v-if="editRecipe.length === 0"
+              v-if="createOrEdit === 'create'"
               text
               color="#017c72"
               @click="addNewRecipe"
@@ -186,8 +184,7 @@ export default {
         v => !v || v.size < 2000000 || "Avatar size should be less than 2 MB!",
         v => !v || v.type.match("image.*") || "Images only!"
       ]
-    },
-    error: ""
+    }
   }),
   watch: {
     getDialog: function() {
@@ -260,6 +257,16 @@ export default {
         }
         return this.dialog;
       }
+    },
+
+    error() {
+      return !this.recipe.imageUrl && !this.recipe.image
+        ? "You can't update an empty image."
+        : "";
+    },
+
+    createOrEdit() {
+      return this.editRecipe.length === 0 ? "create" : "edit";
     }
   },
   methods: {
@@ -267,10 +274,10 @@ export default {
       "pushNewRecipe",
       "updateRecipe", // Within recipes [state mutation]
       "updateEditRecipe", // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
-      "updateDialog"
+      "setDialog"
     ]),
     closeModalRecipe() {
-      this.updateDialog(false);
+      this.setDialog(false);
       this.updateEditRecipe([]);
       this.$refs.form.resetValidation();
     },
@@ -292,8 +299,10 @@ export default {
       this.recipe.creatorId = this.user.id;
       const formValid = this.$refs.form.validate();
       if (formValid) {
-        this.pushNewRecipe(this.recipe);
-        this.closeModalRecipe();
+        if (this.recipe.imageUrl && this.recipe.image) {
+          this.pushNewRecipe(this.recipe);
+          this.closeModalRecipe();
+        }
       }
     },
     pushUpdate() {
@@ -302,8 +311,6 @@ export default {
         if (this.recipe.imageUrl || this.recipe.image) {
           this.updateRecipe(this.recipe);
           this.closeModalRecipe();
-        } else {
-          this.error = "You can't update an empty image.";
         }
       }
     },
@@ -318,10 +325,10 @@ export default {
           this.recipe.image = file;
         } else {
           this.recipe.imageUrl = "";
+          this.recipe.image = 0;
+          alert("Images only!");
+          return "";
         }
-      } else {
-        this.recipe.imageUrl = "";
-        this.recipe.image = null;
       }
     }
   }

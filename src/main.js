@@ -18,7 +18,6 @@ Vue.config.productionTip = false;
 Vue.component("app-alert", AlertErrCmp);
 Vue.component("succuss-alert", AlertSuccessCmp);
 
-
 new Vue({
   store,
   router,
@@ -41,7 +40,7 @@ new Vue({
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.autoSignin(user);
-        this.fetchUserData();
+        // this.fetchUserData(); || For liking system
       }
     });
     this.retrieveRecipes();

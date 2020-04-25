@@ -5,7 +5,7 @@
       <create-or-edit-recipe />
       <modal-button v-if="loggedIn" />
       <h1 class="text-center my-5 display-2" v-if="loggedIn">
-        Welcome back {{ userProfile.firstname }}!
+        Welcome back!
       </h1>
       <recipe-card
         v-for="recipe in recipes"
@@ -36,7 +36,7 @@ export default {
   computed: {
     ...mapGetters([
       "recipes",
-      "userProfile",
+      "dialog",
       "editRecipe",
       "dialog",
       "loading",
@@ -48,7 +48,7 @@ export default {
       "getData",
       "retrieveProfile",
       "updateEditRecipe", // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
-      "updateDialog",
+      "setDialog",
       "deleteRecipe"
     ])
   }

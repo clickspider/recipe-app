@@ -22,7 +22,7 @@ export default {
       },
       set(newVal) {
         if (!newVal) {
-          this.clearSuccess();
+          this.clearError();
         }
         return newVal;
       }

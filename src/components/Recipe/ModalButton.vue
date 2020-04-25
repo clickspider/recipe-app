@@ -8,7 +8,7 @@
     fab
     dark
     color="#017c72"
-    @click="updateDialog(true)"
+    @click="setDialog(true)"
   >
     <v-icon dark>mdi-plus</v-icon>
   </v-btn>
@@ -19,7 +19,7 @@ import { mapActions } from "vuex";
 
 export default {
   methods: {
-    ...mapActions(["updateDialog"])
+    ...mapActions(["setDialog"])
   }
 };
 </script>
