@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
 import * as firebase from "firebase";
 import VuexPersist from "vuex-persist";
 
@@ -81,6 +80,23 @@ export const store = new Vuex.Store({
       state.userProfile = args.data.user;
     },
 
+    likeRecipe(state, payload) {
+      const id = payload.id;
+      if (state.user.favRecipes.findIndex(recipe => recipe.id === id) >= 0) {
+        return;
+      }
+
+      state.user.favRecipes.push(id);
+      state.user.fbKeys[id] = payload.fbKey;
+    },
+    dislikeRecipe(state, payload) {
+      const favRecipes = state.user.favRecipes;
+      favRecipes.splice(
+        favRecipes.findIndex(recipe => recipe.id === payload),
+        1
+      );
+      Reflect.deleteProperty(state.user.fbKeys, payload);
+    },
     pushNewRecipe(state, payload) {
       state.recipes.push(payload);
     },
@@ -146,6 +162,44 @@ export const store = new Vuex.Store({
 
   actions: {
     // Use this to call the change/mutation^
+
+    async likeRecipe({ commit, getters }, payload) {
+      commit("setLoading", true);
+      const user = getters.user;
+      try {
+        const data = await firebase
+          .database()
+          .ref("/users/" + user.id)
+          .child("/favRecipes/")
+          .push(payload);
+        commit("setLoading", false);
+        commit("likeRecipe", { id: payload, fbKey: data.key });
+      } catch (err) {
+        commit("setLoading", false);
+        commit("setError", err);
+      }
+    },
+
+    async dislikeRecipe({ commit, getters }, payload) {
+      commit("setLoading", true);
+      const user = getters.user;
+      if (!user.fbKeys) {
+        return;
+      }
+      const fbKey = user.fbKeys[payload];
+      try {
+        await firebase
+          .database()
+          .ref("/users/" + user.id + "/favRecipes/")
+          .child(fbKey)
+          .remove();
+        commit("setLoading", false);
+        commit("dislikeRecipe", payload);
+      } catch (err) {
+        commit("setLoading", false);
+        commit("setError", err);
+      }
+    },
     async logUserOut({ commit }) {
       try {
         await firebase.auth().signOut();
@@ -156,7 +210,7 @@ export const store = new Vuex.Store({
       }
     },
     autoSignin({ commit }, payload) {
-      commit("setUser", { id: payload.uid, recipes: [] });
+      commit("setUser", { id: payload.uid, favRecipes: [], fbKeys: {} });
     },
     setLoading({ commit }, payload) {
       commit("setLoading", payload);
@@ -179,7 +233,7 @@ export const store = new Vuex.Store({
           .createUserWithEmailAndPassword(payload.email, payload.password);
         commit("setSuccess", "You have registered successfully!");
         commit("setLoading", false);
-        commit("setUser", { id: newUser.user.uid, recipes: [] });
+        commit("setUser", { id: newUser.user.uid, favRecipes: [], fbKeys: {} });
       } catch (err) {
         commit("setLoading", false);
         commit("setError", err);
@@ -195,25 +249,38 @@ export const store = new Vuex.Store({
           .signInWithEmailAndPassword(payload.email, payload.password);
         commit("setLoading", false);
         commit("setSuccess", "You have logged in successfully!");
-        commit("setUser", { id: user.user.uid, recipes: [] });
+        commit("setUser", {
+          id: user.user.uid,
+          favRecipes: [],
+          fbKeys: {}
+        });
       } catch (err) {
         commit("setLoading", false);
         commit("setError", err);
       }
     },
 
-    async retrieveProfile({ commit, state }) {
-      try {
-        const api_url = "http://localhost:4000/api/v1/users/myprofile";
-        const TOKEN = state.token;
-        const GET_PROFILE = await axios.get(api_url, {
-          headers: { Authorization: `Bearer ${TOKEN}` },
-          key: "value"
-        });
+    async fetchUserData({ commit, getters }) {
+      commit("setLoading", true);
 
-        commit("updateProfile", GET_PROFILE);
+      try {
+        const data = await firebase
+          .database()
+          .ref("/users/" + getters.user.id + "/favRecipes/")
+          .once("value");
+
+        const dataParis = data.val();
+        let likedRecipes = [];
+        let swappedParis = {};
+        for (let key in dataParis) {
+          likedRecipes.push(dataParis[key]);
+          swappedParis[dataParis[key]] = key;
+        }
+        commit("setLoading", false);
+        // commit("updateProfile", GET_PROFILE);
       } catch (err) {
-        commit("updateProfile", err);
+        commit("setLoading", false);
+        commit("setError", err);
       }
     },
 
@@ -233,7 +300,7 @@ export const store = new Vuex.Store({
             id: key,
             label: obj[key].label,
             date: obj[key].date,
-            image: obj[key].image,
+            image: null,
             imageUrl: obj[key].imageUrl,
             ingredients: obj[key].ingredients,
             url: obj[key].url,
@@ -252,7 +319,6 @@ export const store = new Vuex.Store({
 
     async pushNewRecipe({ commit }, payload) {
       commit("setLoading", true);
-
       let imageUrl, key;
       try {
         const recipe = await firebase
@@ -273,7 +339,7 @@ export const store = new Vuex.Store({
           .ref(ref)
           .getDownloadURL();
         payload.id = key;
-        payload.image = null;
+        payload.image = 0;
         payload.imageUrl = imageUrl;
         await firebase
           .database()
@@ -309,7 +375,6 @@ export const store = new Vuex.Store({
             .ref(ref)
             .getDownloadURL();
 
-          payload.image = null;
           payload.imageUrl = imageUrl;
         }
         // Update props on the DB

@@ -8,7 +8,6 @@ import "./registerServiceWorker";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 import { store } from "./store/store";
-import axios from "axios";
 import VueOffline from "vue-offline";
 import AlertErrCmp from "./components/Shared/AlertError.vue";
 import AlertSuccessCmp from "./components/Shared/AlretSuccess.vue";
@@ -19,7 +18,6 @@ Vue.config.productionTip = false;
 Vue.component("app-alert", AlertErrCmp);
 Vue.component("succuss-alert", AlertSuccessCmp);
 
-Vue.prototype.$http = axios;
 
 new Vue({
   store,
@@ -27,7 +25,12 @@ new Vue({
   vuetify,
   render: h => h(App),
   methods: {
-    ...mapActions(["retrieveRecipes", "autoSignin", "clearSuccess"])
+    ...mapActions([
+      "retrieveRecipes",
+      "autoSignin",
+      "clearSuccess",
+      "fetchUserData"
+    ])
   },
 
   computed: {
@@ -38,6 +41,7 @@ new Vue({
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.autoSignin(user);
+        this.fetchUserData();
       }
     });
     this.retrieveRecipes();

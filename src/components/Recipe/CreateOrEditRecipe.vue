@@ -208,7 +208,7 @@ export default {
               value: ""
             }
           ],
-          vegetarian: null,
+          vegetarian: false,
           numOfPeople: ""
         };
         this.recipe = formDefault;
