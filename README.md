@@ -5,9 +5,7 @@
 - [Vue CLI](https://www.npmjs.com/package/@vue/cli) (v4.0.5 or higher)
 
 #### Getting started
-1. To run this app you will need to use this boiler plate [https://www.dropbox.com/s/4z004sx0xxui6dg/Applicant-Boilerplate-V1-master.rar?dl=0](https://www.dropbox.com/s/4z004sx0xxui6dg/Applicant-Boilerplate-V1-master.rar?dl=0) and follow the instructions via the README.md file.
-
-2. Navigate to the repository's root directory and run the following commands:
+Navigate to the repository's root directory and run the following commands:
 ```
 npm install
 npm run serve
@@ -25,7 +23,7 @@ After performing this assignment, I realized that the JS community is moving ver
 
 - **Project structure:** I tried to minimize over-engineering, but at the same time demonstrate the structure of a Vue.js application that is comfortable to build upon and scale. This resembles the MVVM pattern. In case I would've built the API I would use the Controller/Service pattern and I would consider choosing a framework such as NestJS (based on Express) which makes this a lot easier to build/maintain and especially easier to test.
 
-- **Logging:** The application features one log level. In a production-ready application, I would include several levels of verbosity (environment-dependent) and possibly external logging services for alerts.
+- **Logging:** The application features one log level (using firebase).
 
 Although in a real application I would most likely use a middleware to simplify the API of logging errors, as this one can easily get over-bloated.
 
@@ -34,6 +32,11 @@ Although in a real application I would most likely use a middleware to simplify 
 - **Run mode:** The application runs in development mode. In a production-ready application, I would set up configurations for different environments, and utilize environment variables.
 
 - **Testing:** Due to limited time, I did not cover the application with tests. However, it is something I'm willing to work on as well as learn and adapt.
+
+## TODO
+
+- [] Work on liking system
+- [] Work on rating system
 
 
 ### Demo images

@@ -9,20 +9,39 @@ const routes = [
   {
     path: "*",
     name: "notfound",
-    redirect: "/login"
+    redirect: "/"
   },
   {
     path: "/",
     name: "home",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Home.vue"),
+    meta: {
+      requiredVisitor: true
+    }
+  },
+  {
+    path: "/dashboard",
+    name: "dashboard",
     meta: {
       requiresAuth: true
     },
-    component: () => import(/* webpackChunkName: "about" */ "../views/Home.vue")
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Dashboard.vue")
   },
   {
     path: "/login",
     name: "Login",
     component: Login,
+    meta: {
+      requiredVisitor: true
+    }
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/User/Signup.vue"),
     meta: {
       requiredVisitor: true
     }
@@ -39,7 +58,7 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (!store.getters.loggedIn) {
       next({
-        name: "Login"
+        name: "home"
       });
     } else {
       next();
@@ -49,7 +68,7 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (store.getters.loggedIn) {
       next({
-        name: "home"
+        name: "dashboard"
       });
     } else {
       next();
