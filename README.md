@@ -33,6 +33,11 @@ Although in a real application I would most likely use a middleware to simplify 
 
 - **Testing:** Due to limited time, I did not cover the application with tests. However, it is something I'm willing to work on as well as learn and adapt.
 
+## TODO
+
+- [] Work on liking system
+- [] Work on rating system
+
 
 ### Demo images
 ![Stock list](image-login.png)
