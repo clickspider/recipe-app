@@ -188,8 +188,7 @@ export default {
   }),
   watch: {
     getDialog: function() {
-      // Check if editRecipe from Vuex given
-      if (this.editRecipe.length !== 0) {
+      if (this.createOrEdit === "edit") {
         // Make a deep copy from Vuex
         // Then set it euqal in our data for reactivity
         this.recipe = JSON.parse(JSON.stringify(this.editRecipe));
@@ -197,7 +196,7 @@ export default {
         // In case there is no recipe to edit, it means we are in 'create'
         const formDefault = {
           image: null,
-          imageUrl: "",
+          imageUrl: "https://via.placeholder.com/150",
           url: "",
           label: "",
           ingredients: [
@@ -206,7 +205,8 @@ export default {
             }
           ],
           vegetarian: false,
-          numOfPeople: ""
+          numOfPeople: "",
+          likes: 0
         };
         this.recipe = formDefault;
       }
@@ -255,13 +255,14 @@ export default {
         if (!newVal) {
           this.closeModalRecipe();
         }
+        this.$refs.form.resetValidation();
         return this.dialog;
       }
     },
 
     error() {
       return !this.recipe.imageUrl && !this.recipe.image
-        ? "You can't update an empty image."
+        ? "Image is required!"
         : "";
     },
 

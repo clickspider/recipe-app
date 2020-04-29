@@ -10,21 +10,18 @@ export default {
     // Use this to change the data
     likeRecipe(state, payload) {
       const id = payload.id;
+      const favRecipes = state.user.favRecipes;
       if (state.user.favRecipes.findIndex(recipe => recipe.id === id) >= 0) {
         return;
       }
-
-      state.user.favRecipes.push(id);
-      state.user.fbKeys[id] = payload.fbKey;
+      favRecipes.push(payload);
     },
-
     dislikeRecipe(state, payload) {
       const favRecipes = state.user.favRecipes;
       favRecipes.splice(
         favRecipes.findIndex(recipe => recipe.id === payload.id),
         1
       );
-      Reflect.deleteProperty(state.user.fbKeys, payload);
     },
 
     setUser(state, payload) {
@@ -49,15 +46,15 @@ export default {
 
         const dataParis = data.val();
         let favRecipes = [];
-        let fbKeys = [];
         for (let key in dataParis) {
-          favRecipes.push({ id: dataParis[key].id });
-          fbKeys.push((fbKeys[dataParis[key]] = key));
+          favRecipes.push({
+            id: dataParis[key].id,
+            fbKey: dataParis[key].fbKey
+          });
         }
         const updatedUser = {
           id: getters.user.id,
-          favRecipes,
-          fbKeys
+          favRecipes
         };
         commit("setLoading", false);
         commit("setUser", updatedUser);
@@ -70,15 +67,26 @@ export default {
     async likeRecipe({ commit, getters }, payload) {
       commit("setLoading", true);
       const user = getters.user;
-      payload.image = 0; //remove later and fix bug
+      const recipe = { id: payload.id, fbKey: null };
+      const ref = "/users/" + user.id + "/favRecipes/";
       try {
+        // Like Recipe
         const data = await firebase
           .database()
-          .ref("/users/" + user.id)
-          .child("/favRecipes/")
-          .push(payload);
+          .ref(ref)
+          .push(recipe);
+
+        recipe.fbKey = data.key;
+
+        // Update Key on DB
+        await firebase
+          .database()
+          .ref(ref)
+          .child(data.key)
+          .update(recipe);
+
         commit("setLoading", false);
-        commit("likeRecipe", { id: payload, fbKey: data.key });
+        commit("likeRecipe", recipe);
       } catch (err) {
         commit("setLoading", false);
         commit("setError", err);
@@ -88,18 +96,23 @@ export default {
     async dislikeRecipe({ commit, getters }, payload) {
       commit("setLoading", true);
       const user = getters.user;
-      if (!user.fbKeys) {
+      const recipe = user.favRecipes.find(recipe => recipe.id === payload.id);
+      if (!recipe.fbKey) {
+        const err = "Can't like a recipe without a FbKey";
+        commit("setLoading", false);
+        commit("setError", err);
         return;
       }
-      const fbKey = user.fbKeys[payload];
+      const fbKey = recipe.fbKey;
       try {
         await firebase
           .database()
           .ref("/users/" + user.id + "/favRecipes/")
           .child(fbKey)
           .remove();
+
         commit("setLoading", false);
-        commit("dislikeRecipe", payload);
+        commit("dislikeRecipe", recipe);
       } catch (err) {
         commit("setLoading", false);
         commit("setError", err);

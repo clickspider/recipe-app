@@ -85,6 +85,24 @@ export default {
 
     loadedRecipes(state, payload) {
       state.recipes = payload;
+    },
+
+    addLikeCount(state, payload) {
+      const findIndex = state.recipes.findIndex(el => el.id === payload.id);
+      if (findIndex !== -1) {
+        state.recipes[findIndex].likes = state.recipes[findIndex].likes + 1;
+      } else {
+        console.error("Couldn't find Recipe to Like");
+      }
+    },
+
+    dislikeCount(state, payload) {
+      const findIndex = state.recipes.findIndex(el => el.id === payload.id);
+      if (findIndex !== -1) {
+        state.recipes[findIndex].likes = state.recipes[findIndex].likes - 1;
+      } else {
+        console.error("Couldn't find Recipe to Like");
+      }
     }
   },
 
@@ -108,6 +126,7 @@ export default {
         for (let key in obj) {
           recipes.push({
             id: key,
+            likes: obj[key].likes,
             label: obj[key].label,
             date: obj[key].date,
             image: obj[key].image,
@@ -215,6 +234,50 @@ export default {
         commit("setSuccess", "You have deleted your recipe successfully!");
         commit("setLoading", false);
         commit("deleteRecipe", payload);
+      } catch (err) {
+        commit("setLoading", false);
+        commit("setError", err);
+      }
+    },
+
+    async addLikeCount({ commit }, payload) {
+      commit("setLoading", true);
+      const recipe = { ...payload };
+      try {
+        recipe.likes = recipe.likes + 1;
+        recipe.image = 0;
+
+        // Update props on the DB
+        await firebase
+          .database()
+          .ref("recipes")
+          .child(payload.id)
+          .update(recipe);
+
+        commit("setLoading", false);
+        commit("addLikeCount", payload);
+      } catch (err) {
+        commit("setLoading", false);
+        commit("setError", err);
+      }
+    },
+
+    async dislikeCount({ commit }, payload) {
+      commit("setLoading", true);
+      const recipe = { ...payload };
+      try {
+        recipe.likes = recipe.likes - 1;
+        recipe.image = 0;
+
+        // Update props on the DB
+        await firebase
+          .database()
+          .ref("recipes")
+          .child(payload.id)
+          .update(recipe);
+
+        commit("setLoading", false);
+        commit("dislikeCount", payload);
       } catch (err) {
         commit("setLoading", false);
         commit("setError", err);

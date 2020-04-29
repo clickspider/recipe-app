@@ -40,7 +40,7 @@ new Vue({
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.autoSignin(user);
-        // this.fetchUserData(); || For liking system
+        this.fetchUserData();
       }
     });
     this.retrieveRecipes();
