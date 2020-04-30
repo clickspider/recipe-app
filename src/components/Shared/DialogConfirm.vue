@@ -12,7 +12,7 @@
           Disagree
         </v-btn>
 
-        <v-btn color="green darken-1" text @click="onDelete(recipe)">
+        <v-btn color="green darken-1" text @click="onDelete">
           Agree
         </v-btn>
       </v-card-actions>
@@ -25,22 +25,16 @@ import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 
 export default {
-  props: {
-    recipe: {
-      type: Object,
-      required: true
-    }
+  computed: {
+    ...mapGetters(["dialogConfirm", "recipeToDelete"])
   },
   methods: {
     ...mapActions(["deleteRecipe", "setDialogConfirm"]),
 
-    onDelete(recipe) {
-      this.deleteRecipe(recipe);
+    onDelete() {
+      this.deleteRecipe(this.recipeToDelete);
       this.setDialogConfirm(false);
     }
-  },
-  computed: {
-    ...mapGetters(["dialogConfirm"])
   }
 };
 </script>

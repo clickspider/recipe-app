@@ -52,13 +52,18 @@ export default {
       //   numOfPeople: "1-2"
       // }
     ],
-    editRecipe: [] // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
+    editRecipe: [], // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
+    recipeToDelete: [] // This is recipe to delete [option to undo]
   },
 
   mutations: {
     // Use this to change the data
     pushNewRecipe(state, payload) {
       state.recipes.push(payload);
+    },
+
+    setDeleteRecipe(state, payload) {
+      state.recipeToDelete = payload;
     },
 
     updateRecipe(state, payload) {
@@ -110,6 +115,10 @@ export default {
     // Use this to call the change/mutation^
     updateEditRecipe({ commit }, payload) {
       commit("updateEditRecipe", payload);
+    },
+
+    setDeleteRecipe({ commit }, payload) {
+      commit("setDeleteRecipe", payload);
     },
 
     async retrieveRecipes({ commit }) {
@@ -288,6 +297,9 @@ export default {
     },
     editRecipe: state => {
       return state.editRecipe;
+    },
+    recipeToDelete: state => {
+      return state.recipeToDelete;
     }
   }
 };

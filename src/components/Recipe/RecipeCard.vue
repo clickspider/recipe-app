@@ -1,7 +1,5 @@
 <template>
   <div>
-    <dialog-confirm :recipe="recipe" />
-
     <v-card
       class="mx-auto my-12"
       color="#F9F5F3"
@@ -44,7 +42,7 @@
           outlined
           small
           color="error"
-          @click="setDialogConfirm(true)"
+          @click="onDelete(recipe)"
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
@@ -166,7 +164,8 @@ export default {
       "addLikeCount",
       "dislikeCount",
       "setError",
-      "setDialogConfirm"
+      "setDialogConfirm",
+      "setDeleteRecipe"
     ]),
     openModalRecipe(recipe) {
       this.setDialog(true);
@@ -209,6 +208,11 @@ export default {
     onDislike(recipe) {
       this.dislikeRecipe(recipe);
       this.dislikeCount(recipe);
+    },
+
+    onDelete(recipe) {
+      this.setDialogConfirm(true);
+      this.setDeleteRecipe(recipe);
     }
   }
 };

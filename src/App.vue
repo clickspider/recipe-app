@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <dialog-confirm />
     <succuss-alert />
     <app-alert />
     <main-header />
@@ -75,12 +76,10 @@ export default {
 }
 
 .theme--light.v-application {
-
   background-image: linear-gradient(
     to right bottom,
     #fbdb89,
     #f48982
   ) !important;
-
 }
 </style>
