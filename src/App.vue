@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .custom-loader {
   animation: loader 1s infinite;
   display: flex;
@@ -59,5 +59,28 @@ export default {
   .mr-sm-5 {
     margin-right: 2px !important;
   }
+}
+
+.btn-primary {
+  background-image: linear-gradient(to right bottom, #fbdb89, #f48982);
+  border-radius: 10rem;
+}
+
+.color-primary {
+  background-image: linear-gradient(
+    to right bottom,
+    #fbdb89,
+    #f48982
+  ) !important;
+}
+
+.theme--light.v-application {
+
+  background-image: linear-gradient(
+    to right bottom,
+    #fbdb89,
+    #f48982
+  ) !important;
+
 }
 </style>

@@ -241,7 +241,6 @@ export default {
     },
 
     async addLikeCount({ commit }, payload) {
-      commit("setLoading", true);
       const recipe = { ...payload };
       try {
         recipe.likes = recipe.likes + 1;
@@ -263,7 +262,6 @@ export default {
     },
 
     async dislikeCount({ commit }, payload) {
-      commit("setLoading", true);
       const recipe = { ...payload };
       try {
         recipe.likes = recipe.likes - 1;
@@ -276,10 +274,8 @@ export default {
           .child(payload.id)
           .update(recipe);
 
-        commit("setLoading", false);
         commit("dislikeCount", payload);
       } catch (err) {
-        commit("setLoading", false);
         commit("setError", err);
       }
     }

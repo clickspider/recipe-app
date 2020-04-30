@@ -1,13 +1,12 @@
 <template>
   <v-btn
-    class="mx-2"
+    class="mx-2 btn-primary"
     large
     fixed
     bottom
     right
     fab
     dark
-    color="#017c72"
     @click="setDialog(true)"
   >
     <v-icon dark>mdi-plus</v-icon>

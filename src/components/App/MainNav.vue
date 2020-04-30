@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="getDrawer" fixed left temporary>
+  <v-navigation-drawer v-model="getDrawer" fixed left temporary color="#F9F5F3">
     <v-list nav dense>
       <v-list-item-group
         v-model="group"

@@ -16,9 +16,9 @@
                   <v-file-input
                     v-if="createOrEdit === 'create'"
                     :rules="rules.image"
-                    :error-messages="error"
+                    :error-messages="error || unexpected"
                     :show-size="true"
-                    color="#017c72"
+                    color="#f48982"
                     accept="image/*"
                     placeholder="Pick an recipe image*"
                     prepend-icon="mdi-camera"
@@ -32,7 +32,7 @@
                     :error-messages="error"
                     :rules="recipe.image ? editRules.image : []"
                     :show-size="true"
-                    color="#017c72"
+                    color="#f48982"
                     accept="image/*"
                     placeholder="Update an recipe image"
                     prepend-icon="mdi-camera"
@@ -48,7 +48,7 @@
                     :error-messages="validURL"
                     prepend-icon="mdi-link"
                     required
-                    color="#017c72"
+                    color="#f48982"
                     v-model="recipe.url"
                   ></v-text-field>
                 </v-col>
@@ -58,7 +58,7 @@
                     :rules="rules.label"
                     prepend-icon="mdi-page-layout-header"
                     required
-                    color="#017c72"
+                    color="#f48982"
                     v-model="recipe.label"
                   ></v-text-field>
                 </v-col>
@@ -74,7 +74,7 @@
                     absolute
                     fab
                     dark
-                    color="#017c72"
+                    color="green"
                     @click="recipe.ingredients.push({ value: '' })"
                   >
                     <v-icon dark>mdi-plus</v-icon>
@@ -100,7 +100,7 @@
                     v-model="ingredient.value"
                     :rules="rules.ingredients"
                     relative
-                    color="#017c72"
+                    color="#f48982"
                   >
                   </v-text-field>
                 </v-col>
@@ -110,7 +110,7 @@
                     v-model="recipe.numOfPeople"
                     prepend-icon="mdi-account-group"
                     :rules="rules.numOfPeople"
-                    color="#017c72"
+                    color="#f48982"
                     label="Number of diners*"
                     required
                   ></v-select>
@@ -120,7 +120,7 @@
                     v-model="recipe.vegetarian"
                     :prepend-icon="leaf"
                     label="Vegetarian?"
-                    color="#017c72"
+                    color="green"
                   ></v-checkbox>
                 </v-col>
               </v-row>
@@ -133,14 +133,14 @@
             <v-btn
               v-if="createOrEdit === 'create'"
               text
-              color="#017c72"
+              color="green"
               @click="addNewRecipe"
               >CREATE</v-btn
             >
             <v-btn
               v-else
               text
-              color="#017c72"
+              color="green"
               @click="pushUpdate"
               :disabled="isChange"
             >
@@ -184,7 +184,8 @@ export default {
         v => !v || v.size < 2000000 || "Avatar size should be less than 2 MB!",
         v => !v || v.type.match("image.*") || "Images only!"
       ]
-    }
+    },
+    unexpected: ""
   }),
   watch: {
     getDialog: function() {
@@ -275,7 +276,8 @@ export default {
       "pushNewRecipe",
       "updateRecipe", // Within recipes [state mutation]
       "updateEditRecipe", // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
-      "setDialog"
+      "setDialog",
+      "setError"
     ]),
     closeModalRecipe() {
       this.setDialog(false);
@@ -303,6 +305,12 @@ export default {
         if (this.recipe.imageUrl && this.recipe.image) {
           this.pushNewRecipe(this.recipe);
           this.closeModalRecipe();
+        } else {
+          this.unexpected = "Something is not right!";
+          this.setError({ message: "Try to repload your image" });
+          setTimeout(() => {
+            this.unexpected = "";
+          }, 1500);
         }
       }
     },

@@ -3,7 +3,7 @@
     <v-layout row>
       <v-flex xs11 sm6 offset-sm3 class="mx-auto mt-10">
         <v-card class="elevation-12">
-          <v-toolbar color="#017c72" dark flat>
+          <v-toolbar class="color-primary" flat>
             <v-toolbar-title>Login</v-toolbar-title>
             <v-spacer />
           </v-toolbar>
@@ -18,7 +18,7 @@
                       v-if="error"
                     ></app-alert>
                     <v-text-field
-                      color="#017c72"
+                      color="#f48982"
                       prepend-icon="mdi-account"
                       name="email"
                       label="Email"
@@ -33,7 +33,7 @@
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
-                      color="#017c72"
+                      color="#f48982"
                       prepend-icon="mdi-lock"
                       name="password"
                       label="Password"
@@ -50,7 +50,7 @@
 
                   <v-btn
                     type="submit"
-                    color="#ffd200"
+                    class="btn-primary"
                     :disabled="loading"
                     :loading="loading"
                   >

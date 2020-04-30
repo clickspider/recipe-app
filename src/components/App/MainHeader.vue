@@ -1,16 +1,18 @@
 <template>
-  <v-app-bar app color="#fff" light>
+  <v-app-bar app color="#F9F5F3" light>
     <v-app-bar-nav-icon @click.stop="setDrawer(!drawer)"></v-app-bar-nav-icon>
 
     <div class="d-flex align-center">
-      <v-img
-        alt="ABN-AMRO LOGO"
-        class="shrink mr-2 d-none d-md-block"
-        contain
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/ABN-AMRO_Logo_new_colors.svg/1200px-ABN-AMRO_Logo_new_colors.svg.png"
-        transition="scale-transition"
-        width="140"
-      />
+      <router-link to="/">
+        <v-img
+          alt="ABN-AMRO LOGO"
+          class="shrink mr-2 d-none d-md-block"
+          contain
+          src="http://forkify.netlify.com/img/logo.png"
+          transition="scale-transition"
+          width="140"
+        />
+      </router-link>
     </div>
 
     <v-spacer></v-spacer>
@@ -19,8 +21,7 @@
         <v-btn
           :loading="loading"
           :disabled="loading"
-          color="#ffd200"
-          class="mr-5 mr-sm-5"
+          class="btn-primary mr-5 mr-sm-5"
           @click="loader = 'loading'"
         >
           Reload <v-icon>mdi-reload</v-icon>
@@ -31,17 +32,17 @@
           </template>
         </v-btn>
 
-        <v-btn color="error" @click="onLogOut">
+        <v-btn class="btn-primary" @click="onLogOut">
           Logout
         </v-btn>
       </div>
 
       <div v-else>
-        <v-btn color="#ffd200" to="/login" class="mr-5 mr-sm-5">
+        <v-btn class="btn-primary mr-5 mr-sm-5" to="/login">
           Login
         </v-btn>
 
-        <v-btn color="#ffd200" to="/signup">
+        <v-btn class="btn-primary" to="/signup">
           signup
         </v-btn>
       </div>
@@ -77,5 +78,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

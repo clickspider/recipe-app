@@ -65,7 +65,6 @@ export default {
     },
 
     async likeRecipe({ commit, getters }, payload) {
-      commit("setLoading", true);
       const user = getters.user;
       const recipe = { id: payload.id, fbKey: null };
       const ref = "/users/" + user.id + "/favRecipes/";
@@ -85,22 +84,18 @@ export default {
           .child(data.key)
           .update(recipe);
 
-        commit("setLoading", false);
         commit("likeRecipe", recipe);
       } catch (err) {
-        commit("setLoading", false);
         commit("setError", err);
       }
     },
 
     async dislikeRecipe({ commit, getters }, payload) {
-      commit("setLoading", true);
       const user = getters.user;
       const recipe = user.favRecipes.find(recipe => recipe.id === payload.id);
       if (!recipe.fbKey) {
         const err = "Can't like a recipe without a FbKey";
-        commit("setLoading", false);
-        commit("setError", err);
+        commit("setError", { message: err });
         return;
       }
       const fbKey = recipe.fbKey;
@@ -111,10 +106,8 @@ export default {
           .child(fbKey)
           .remove();
 
-        commit("setLoading", false);
         commit("dislikeRecipe", recipe);
       } catch (err) {
-        commit("setLoading", false);
         commit("setError", err);
       }
     },

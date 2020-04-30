@@ -5,6 +5,7 @@ export default {
     drawer: false,
     error: null,
     success: "",
+    dialogConfirm: false,
     dialog: false
   },
 
@@ -12,6 +13,10 @@ export default {
     // Use this to change the data
     setDialog(state, payload) {
       state.dialog = payload;
+    },
+
+    setDialogConfirm(state, payload) {
+      state.dialogConfirm = payload;
     },
 
     setLoading(state, payload) {
@@ -61,6 +66,10 @@ export default {
       commit("setDialog", payload);
     },
 
+    setDialogConfirm({ commit }, payload) {
+      commit("setDialogConfirm", payload);
+    },
+
     setSuccess({ commit }, payload) {
       commit("setSuccess", payload);
     },
@@ -90,6 +99,10 @@ export default {
 
     dialog: state => {
       return state.dialog;
+    },
+
+    dialogConfirm: state => {
+      return state.dialogConfirm;
     }
   }
 };

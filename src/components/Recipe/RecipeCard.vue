@@ -1,115 +1,119 @@
 <template>
-  <v-card
-    class="mx-auto my-12"
-    style="cursor: pointer; position: relative;"
-    max-width="374"
-    :loading="loading"
-    @dblclick="onDoubleTap(recipe, $event)"
-  >
-    <v-img
-      v-if="loggedIn"
-      src="https://svgshare.com/i/JtP.svg"
-      large
-      class="heart-icon"
-    ></v-img>
+  <div>
+    <dialog-confirm :recipe="recipe" />
 
-    <v-img height="250" :src="recipe.imageUrl"></v-img>
-
-    <v-row align="center" class="mx-0">
-      <v-card-title class="title">
-        <span :class="userIsCreator ? 'title__overflow' : ''">
-          {{ recipe.label }}
-        </span>
-      </v-card-title>
-
-      <v-btn
-        v-if="userIsCreator"
-        class="ma-2"
-        fab
-        outlined
-        small
-        color="success"
-        @click="openModalRecipe(recipe)"
-      >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-
-      <v-btn
-        class="ma-2"
-        v-if="userIsCreator"
-        fab
-        outlined
-        small
-        color="error"
-        @click="deleteRecipe(recipe)"
-      >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-
-      <v-btn
-        icon
+    <v-card
+      class="mx-auto my-12"
+      color="#F9F5F3"
+      style="cursor: pointer; position: relative;"
+      max-width="374"
+      :loading="loading"
+      @dblclick="onDoubleTap(recipe, $event)"
+    >
+      <v-img
+        v-if="loggedIn"
+        src="https://svgshare.com/i/JtP.svg"
         large
-        color="red"
-        v-if="loggedIn && !isLiked"
-        @click="onLike(recipe)"
-      >
-        <v-icon>mdi-heart-outline</v-icon>
-      </v-btn>
+        class="heart-icon"
+      ></v-img>
 
-      <v-btn
-        icon
-        large
-        color="red"
-        @click="onDislike(recipe)"
-        v-if="loggedIn && isLiked"
-      >
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-      <v-icon color="red" v-if="!loggedIn">mdi-heart</v-icon>
-      <span class="ml-1">{{ recipe.likes }} Likes</span>
-    </v-row>
+      <v-img height="250" :src="recipe.imageUrl"></v-img>
 
-    <v-card-text>
-      <p class="grey--text mt-5">Created on {{ recipe.date }}</p>
+      <v-row align="center" class="mx-0">
+        <v-card-title class="title">
+          <span :class="userIsCreator ? 'title__overflow' : ''">
+            {{ recipe.label }}
+          </span>
+        </v-card-title>
 
-      <div class="my-4 subtitle-1">
-        <v-row align="center" class="mx-0">
-          <v-icon v-if="recipe.vegetarian" color="green" class="mr-2">
-            mdi-leaf</v-icon
-          >
-          <v-icon v-else>mdi-leaf-off</v-icon>
+        <v-btn
+          v-if="userIsCreator"
+          fab
+          outlined
+          small
+          color="success"
+          @click="openModalRecipe(recipe)"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
 
-          <v-icon class="ml-3 mr-2">mdi-account-group</v-icon>
-          <span>{{ recipe.numOfPeople }}</span>
-        </v-row>
-      </div>
+        <v-btn
+          class="ma-2"
+          v-if="userIsCreator"
+          fab
+          outlined
+          small
+          color="error"
+          @click="setDialogConfirm(true)"
+        >
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
 
-      <v-list color="none">
-        <v-list-group color="transpert">
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Ingredients List</v-list-item-title>
-            </v-list-item-content>
-          </template>
-          <v-list-item v-for="(ingredient, i) in recipe.ingredients" :key="i">
-            {{ ingredient.value }}
-          </v-list-item>
-        </v-list-group>
-      </v-list>
-    </v-card-text>
+        <v-btn
+          icon
+          large
+          color="red"
+          v-if="loggedIn && !isLiked"
+          @click="onLike(recipe)"
+        >
+          <v-icon>mdi-heart-outline</v-icon>
+        </v-btn>
 
-    <v-card-actions>
-      <v-btn
-        color="#ffd200"
-        text
-        target="_blank"
-        rel="noopener"
-        :href="formatedUrl"
-      >
-        instructions
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+        <v-btn
+          icon
+          large
+          color="red"
+          @click="onDislike(recipe)"
+          v-if="loggedIn && isLiked"
+        >
+          <v-icon>mdi-heart</v-icon>
+        </v-btn>
+        <v-icon color="red" v-if="!loggedIn">mdi-heart</v-icon>
+        <span class="ml-1">{{ recipe.likes }} Likes</span>
+      </v-row>
+
+      <v-card-text>
+        <p class="grey--text mt-5">Created on {{ recipe.date }}</p>
+
+        <div class="my-4 subtitle-1">
+          <v-row align="center" class="mx-0">
+            <v-icon v-if="recipe.vegetarian" color="green" class="mr-2">
+              mdi-leaf</v-icon
+            >
+            <v-icon v-else>mdi-leaf-off</v-icon>
+
+            <v-icon class="ml-3 mr-2">mdi-account-group</v-icon>
+            <span>{{ recipe.numOfPeople }}</span>
+          </v-row>
+        </div>
+
+        <v-list color="transparent">
+          <v-list-group color="none">
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>Ingredients List</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item v-for="(ingredient, i) in recipe.ingredients" :key="i">
+              {{ ingredient.value }}
+            </v-list-item>
+          </v-list-group>
+        </v-list>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-btn
+          class="btn-primary"
+          text
+          target="_blank"
+          rel="noopener"
+          :href="formatedUrl"
+        >
+          instructions
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -157,12 +161,12 @@ export default {
     ...mapActions([
       "setDialog",
       "updateEditRecipe",
-      "deleteRecipe",
       "likeRecipe",
       "dislikeRecipe",
       "addLikeCount",
       "dislikeCount",
-      "setError"
+      "setError",
+      "setDialogConfirm"
     ]),
     openModalRecipe(recipe) {
       this.setDialog(true);
@@ -217,7 +221,7 @@ export default {
   left: 50%;
   z-index: 1;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 19px 38px rgba(0, 0, 0, 0.7));
+  filter: drop-shadow(0 19px 38px rgba(0, 0, 0, 0.5));
   transform-origin: center center;
   width: 0;
 }
