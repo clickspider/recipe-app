@@ -25,8 +25,6 @@ After performing this assignment, I realized that the JS community is moving ver
 
 - **Logging:** The application features one log level (using firebase).
 
-Although in a real application I would most likely use a middleware to simplify the API of logging errors, as this one can easily get over-bloated.
-
 - **UX/UI:** For the sake of simplicity, I used Vuetify (Material Design component framework for Vue.js).
 
 - **Run mode:** The application runs in development mode. In a production-ready application, I would set up configurations for different environments, and utilize environment variables.
