@@ -20,7 +20,7 @@
 
     <v-row align="center" class="mx-0">
       <v-card-title class="title">
-        <span :class="userIsCreator ? 'title__overflow' : ''">
+        <span :class="{ title__overflow: userIsCreator }">
           {{ recipe.label }}
         </span>
       </v-card-title>
