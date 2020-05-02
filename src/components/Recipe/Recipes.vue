@@ -1,56 +1,29 @@
 <template>
-  <main>
-    <main-loader v-if="loading && recipes.length === 0" />
-    <section v-else>
-      <create-or-edit-recipe />
-      <modal-button v-if="loggedIn" />
-      <h1 class="text-center my-5 display-2" v-if="loggedIn">
-        Welcome back!
-      </h1>
-      <recipe-card
-        v-for="recipe in recipes"
-        :key="recipe.id"
-        :recipe="recipe"
-        :loading="loading"
-      />
-    </section>
-  </main>
+  <card-loader v-if="loading && recipes.length === 0" />
+  <section v-else>
+    <create-button />
+    <recipe-card
+      v-for="recipe in recipes"
+      :key="recipe.id"
+      :recipe="recipe"
+      :loading="loading"
+    />
+  </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
-import CreateOrEditRecipe from "./CreateOrEditRecipe.vue";
-import RecipeCard from "./RecipeCard.vue";
-import MainLoader from "@/components/App/MainLoader.vue";
-import ModalButton from "./ModalButton.vue";
+import RecipeCard from "./Cards/RecipeCard.vue";
+import CreateButton from "./Buttons/CreateButton.vue";
 
 export default {
   name: "Recipes",
   components: {
-    CreateOrEditRecipe,
     RecipeCard,
-    ModalButton,
-    MainLoader
+    CreateButton
   },
   computed: {
-    ...mapGetters([
-      "recipes",
-      "dialog",
-      "editRecipe",
-      "dialog",
-      "loading",
-      "loggedIn"
-    ])
-  },
-  methods: {
-    ...mapActions([
-      "getData",
-      "retrieveProfile",
-      "updateEditRecipe", // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
-      "setDialog",
-      "deleteRecipe"
-    ])
+    ...mapGetters(["recipes", "loading", "loggedIn"])
   }
 };
 </script>

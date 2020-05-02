@@ -60,11 +60,12 @@ export default {
         commit("setUser", updatedUser);
       } catch (err) {
         commit("setLoading", false);
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async likeRecipe({ commit, getters }, payload) {
+      commit("setLoading", true);
       const user = getters.user;
       const recipe = { id: payload.id, fbKey: null };
       const ref = "/users/" + user.id + "/favRecipes/";
@@ -83,19 +84,21 @@ export default {
           .ref(ref)
           .child(data.key)
           .update(recipe);
-
+        commit("setLoading", false);
         commit("likeRecipe", recipe);
       } catch (err) {
-        commit("setError", err);
+        commit("setLoading", false);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async dislikeRecipe({ commit, getters }, payload) {
+      commit("setLoading", true);
       const user = getters.user;
       const recipe = user.favRecipes.find(recipe => recipe.id === payload.id);
       if (!recipe.fbKey) {
         const err = "Can't like a recipe without a FbKey";
-        commit("setError", { message: err });
+        commit("setAlert", { message: err });
         return;
       }
       const fbKey = recipe.fbKey;
@@ -105,20 +108,24 @@ export default {
           .ref("/users/" + user.id + "/favRecipes/")
           .child(fbKey)
           .remove();
-
+        commit("setLoading", false);
         commit("dislikeRecipe", recipe);
       } catch (err) {
-        commit("setError", err);
+        commit("setLoading", false);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async logUserOut({ commit }) {
       try {
         await firebase.auth().signOut();
-        commit("setSuccess", "You have logged out successfully!");
+        commit("setAlert", {
+          message: "You have logged out successfully!",
+          type: "success"
+        });
         commit("setUser", null);
       } catch (err) {
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
@@ -129,12 +136,15 @@ export default {
         const newUser = await firebase
           .auth()
           .createUserWithEmailAndPassword(payload.email, payload.password);
-        commit("setSuccess", "You have registered successfully!");
+        commit("setAlert", {
+          message: "You have registered successfully!",
+          type: "success"
+        });
         commit("setLoading", false);
         commit("setUser", { id: newUser.user.uid, favRecipes: [], fbKeys: {} });
       } catch (err) {
         commit("setLoading", false);
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
@@ -146,7 +156,10 @@ export default {
           .auth()
           .signInWithEmailAndPassword(payload.email, payload.password);
         commit("setLoading", false);
-        commit("setSuccess", "You have logged in successfully!");
+        commit("setAlert", {
+          message: "You have logged in successfully!",
+          type: "success"
+        });
         commit("setUser", {
           id: user.user.uid,
           favRecipes: [],
@@ -154,7 +167,7 @@ export default {
         });
       } catch (err) {
         commit("setLoading", false);
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     }
   },

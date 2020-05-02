@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../views/Login.vue";
 import { store } from "../store/store";
 
 Vue.use(VueRouter);
@@ -32,7 +31,8 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: Login,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/User/Login.vue"),
     meta: {
       requiredVisitor: true
     }

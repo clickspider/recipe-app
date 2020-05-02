@@ -3,40 +3,35 @@ export default {
     // Use this to store your data
     loading: false,
     drawer: false,
-    error: null,
-    success: "",
-    dialogConfirm: false,
-    dialog: false
+    alert: {
+      message: "",
+      type: ""
+    },
+    dialog: {
+      isActive: false,
+      mode: ""
+    }
   },
 
   mutations: {
     // Use this to change the data
     setDialog(state, payload) {
-      state.dialog = payload;
-    },
-
-    setDialogConfirm(state, payload) {
-      state.dialogConfirm = payload;
+      state.dialog.isActive = payload.isActive;
+      state.dialog.mode = payload.mode;
     },
 
     setLoading(state, payload) {
       state.loading = payload;
     },
 
-    setError(state, payload) {
-      state.error = payload;
+    setAlert(state, payload) {
+      state.alert.message = payload.message;
+      state.alert.type = payload.type;
     },
 
-    setSuccess(state, payload) {
-      state.success = payload;
-    },
-
-    clearError(state) {
-      state.error = null;
-    },
-
-    clearSuccess(state) {
-      state.success = "";
+    clearAlert(state) {
+      state.alert.message = "";
+      state.alert.type = "";
     },
 
     setDrawer(state, payload) {
@@ -50,12 +45,8 @@ export default {
       commit("setLoading", payload);
     },
 
-    clearSuccess({ commit }) {
-      commit("clearSuccess");
-    },
-
-    clearError({ commit }) {
-      commit("clearError");
+    clearAlert({ commit }) {
+      commit("clearAlert");
     },
 
     setDrawer({ commit }, payload) {
@@ -66,16 +57,8 @@ export default {
       commit("setDialog", payload);
     },
 
-    setDialogConfirm({ commit }, payload) {
-      commit("setDialogConfirm", payload);
-    },
-
-    setSuccess({ commit }, payload) {
-      commit("setSuccess", payload);
-    },
-
-    setError({ commit }, payload) {
-      commit("setError", payload);
+    error({ commit }, payload) {
+      commit("setAlert", payload);
     }
   },
 
@@ -89,20 +72,12 @@ export default {
       return state.drawer;
     },
 
-    error: state => {
-      return state.error;
-    },
-
-    success: state => {
-      return state.success;
+    alert: state => {
+      return state.alert;
     },
 
     dialog: state => {
       return state.dialog;
-    },
-
-    dialogConfirm: state => {
-      return state.dialogConfirm;
     }
   }
 };

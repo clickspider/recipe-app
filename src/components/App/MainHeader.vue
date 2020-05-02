@@ -5,7 +5,7 @@
     <div class="d-flex align-center">
       <router-link to="/">
         <v-img
-          alt="ABN-AMRO LOGO"
+          alt="LOGO"
           class="shrink mr-2 d-none d-md-block"
           contain
           src="http://forkify.netlify.com/img/logo.png"
@@ -65,6 +65,7 @@ export default {
       this.$router.go();
     }
   },
+
   computed: {
     ...mapGetters(["loggedIn", "loading", "drawer"])
   },

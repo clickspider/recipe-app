@@ -9,16 +9,18 @@ import router from "./router";
 import vuetify from "./plugins/vuetify";
 import { store } from "./store/store";
 import VueOffline from "vue-offline";
-import AlertErrCmp from "./components/Shared/AlertError.vue";
-import AlertSuccessCmp from "./components/Shared/AlretSuccess.vue";
-import DialogConfirmCmp from "./components/Shared/DialogConfirm.vue";
+import MainLoaderCmp from "./components/Shared/CardLoader.vue";
+import AlertCmp from "./components/Shared/Alert.vue";
+import DialogCmp from "./components/Shared/MainDialog.vue";
+import AppListItemCmp from "./components/Shared/Lists/AppListItem.vue";
 
 Vue.use(VueOffline);
 
 Vue.config.productionTip = false;
-Vue.component("app-alert", AlertErrCmp);
-Vue.component("succuss-alert", AlertSuccessCmp);
-Vue.component("DialogConfirm", DialogConfirmCmp);
+Vue.component("app-alert", AlertCmp);
+Vue.component("main-dialog", DialogCmp);
+Vue.component("card-loader", MainLoaderCmp);
+Vue.component("app-list-item", AppListItemCmp);
 
 new Vue({
   store,

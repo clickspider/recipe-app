@@ -151,7 +151,7 @@ export default {
         commit("loadedRecipes", recipes);
       } catch (err) {
         commit("setLoading", false);
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
@@ -184,12 +184,15 @@ export default {
           .ref("recipes")
           .child(key)
           .update(payload);
-        commit("setSuccess", "You have added a new recipe successfully!");
+        commit("setAlert", {
+          message: "You have added a new recipe successfully!",
+          type: "success"
+        });
         commit("setLoading", false);
         commit("pushNewRecipe", payload);
       } catch (err) {
         commit("setLoading", false);
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
@@ -223,11 +226,14 @@ export default {
           .update(payload);
 
         commit("updateRecipe", payload);
-        commit("setSuccess", "You have updated your recipe successfully!");
+        commit("setAlert", {
+          message: "You have updated your recipe successfully!",
+          type: "success"
+        });
         commit("setLoading", false);
       } catch (err) {
         commit("setLoading", false);
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
@@ -240,16 +246,20 @@ export default {
           .ref("recipes")
           .child(payload.id)
           .remove();
-        commit("setSuccess", "You have deleted your recipe successfully!");
+        commit("setAlert", {
+          message: "You have deleted your recipe successfully!",
+          type: "success"
+        });
         commit("setLoading", false);
         commit("deleteRecipe", payload);
       } catch (err) {
         commit("setLoading", false);
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async addLikeCount({ commit }, payload) {
+      commit("setLoading", true);
       const recipe = { ...payload };
       try {
         recipe.likes = recipe.likes + 1;
@@ -266,11 +276,12 @@ export default {
         commit("addLikeCount", payload);
       } catch (err) {
         commit("setLoading", false);
-        commit("setError", err);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async dislikeCount({ commit }, payload) {
+      commit("setLoading", true);
       const recipe = { ...payload };
       try {
         recipe.likes = recipe.likes - 1;
@@ -282,10 +293,11 @@ export default {
           .ref("recipes")
           .child(payload.id)
           .update(recipe);
-
+        commit("setLoading", false);
         commit("dislikeCount", payload);
       } catch (err) {
-        commit("setError", err);
+        commit("setLoading", false);
+        commit("setAlert", { message: err.message, type: "error" });
       }
     }
   },

@@ -12,11 +12,6 @@
               <v-form ref="form" @submit.prevent="onSignup">
                 <v-layout row>
                   <v-flex xs12>
-                    <app-alert
-                      @dismissed="onDismissed"
-                      :text="error.message"
-                      v-if="error"
-                    ></app-alert>
                     <v-text-field
                       color="#f48982"
                       prepend-icon="mdi-account"
@@ -99,7 +94,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "loading", "error", "loggedIn"]),
+    ...mapGetters(["user", "loading", "loggedIn"]),
     comparePasswords() {
       return this.password !== this.confirmPassword
         ? "Passwords do not match"
@@ -114,13 +109,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["signUserUp", "clearError"]),
+    ...mapActions(["signUserUp", "clearAlert"]),
     onSignup() {
       const validate = this.$refs.form.validate();
       const { email, password } = this;
-      validate && this.email !== "" && this.password !== ""
-        ? this.signUserUp({ email, password })
-        : false;
+      if (!validate && !this.email && !this.password) return;
+      this.signUserUp({ email, password });
     }
   }
 };

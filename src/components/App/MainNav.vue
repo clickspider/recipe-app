@@ -1,45 +1,9 @@
 <template>
   <v-navigation-drawer v-model="getDrawer" fixed left temporary color="#F9F5F3">
     <v-list nav dense>
-      <v-list-item-group
-        v-model="group"
-        active-class="text--accent-4"
-        v-if="loggedIn"
-      >
-        <v-list-item
-          v-for="item in itemsUserIn"
-          :key="item.title"
-          link
-          :to="item.url"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ item.title }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-      <v-list-item-group v-model="group" active-class="text--accent-4" v-else>
-        <v-list-item
-          v-for="item in itemsUserOut"
-          :key="item.title"
-          link
-          :to="item.url"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ item.title }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+      <v-list-item-group v-model="group" active-class="text--accent-4">
+        <app-list-item :items="itemsUserIn" v-if="loggedIn" />
+        <app-list-item :items="itemsUserOut" v-else />
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>

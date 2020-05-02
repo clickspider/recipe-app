@@ -12,11 +12,6 @@
               <v-form ref="form" @submit.prevent="onLogin">
                 <v-layout row>
                   <v-flex xs12>
-                    <app-alert
-                      @dismissed="onDismissed"
-                      :text="error.message"
-                      v-if="error"
-                    ></app-alert>
                     <v-text-field
                       color="#f48982"
                       prepend-icon="mdi-account"
@@ -91,10 +86,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["loading", "error", "loggedIn"])
+    ...mapGetters(["loading", "alert", "loggedIn"])
   },
   methods: {
-    ...mapActions(["signUserIn", "clearError"]),
+    ...mapActions(["signUserIn", "clearAlert"]),
     onLogin() {
       const validate = this.$refs.form.validate();
       validate && this.email !== "" && this.password !== ""
@@ -102,7 +97,7 @@ export default {
         : false;
     },
     onDismissed() {
-      this.clearError();
+      this.clearAlert();
     }
   }
 };

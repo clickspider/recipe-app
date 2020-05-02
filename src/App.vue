@@ -1,11 +1,10 @@
 <template>
   <v-app>
-    <dialog-confirm />
-    <succuss-alert />
-    <app-alert />
+    <main-dialog v-if="dialog.isActive" />
     <main-header />
     <main-nav />
     <v-content>
+      <app-alert @dismissed="onDismissed" />
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -13,6 +12,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import MainHeader from "@/components/App/MainHeader.vue";
 import MainNav from "@/components/App/MainNav.vue";
 
@@ -22,16 +22,19 @@ export default {
     MainHeader,
     MainNav
   },
+  computed: {
+    ...mapGetters(["loading", "dialog", "loggedIn"])
+  },
   watch: {
     loggedIn() {
       this.$router.push("/");
     }
-    // error(val) { // only if debugging
-    //   console.error("error", val);
-    // }
   },
-  computed: {
-    ...mapGetters(["loading", "loggedIn", "error"])
+  methods: {
+    ...mapActions(["clearAlert"]),
+    onDismissed() {
+      this.clearAlert();
+    }
   }
 };
 </script>
