@@ -8,13 +8,12 @@
     :disabled="loading"
     @dblclick="onDoubleTap(recipe, $event)"
   >
-    <!-- Add it the framework way, class: isActive -->
-
     <v-img
       v-if="loggedIn"
       src="https://svgshare.com/i/JtP.svg"
       large
       class="heart-icon"
+      :class="{ 'animate-like': heartActive }"
     ></v-img>
 
     <v-img height="250" :src="recipe.imageUrl"></v-img>
@@ -120,6 +119,11 @@ import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 
 export default {
+  data() {
+    return {
+      heartActive: false
+    };
+  },
   props: {
     recipe: {
       type: Object,
@@ -170,20 +174,17 @@ export default {
       this.updateEditRecipe(recipe);
     },
 
-    onDoubleTap(recipe, event) {
+    onDoubleTap(recipe) {
       if (!this.loggedIn) {
         return this.error({
           message: "You must login before trying to do any actions!",
           type: "error"
         });
       } else if (!this.loading) {
-        const card = event.currentTarget;
-        const heart = card.querySelector(".heart-icon");
-
-        heart.classList.add("animate-like");
+        this.heartActive = true;
 
         setTimeout(() => {
-          heart.classList.remove("animate-like");
+          this.heartActive = false;
         }, 800);
 
         if (!this.isLiked) {

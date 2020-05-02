@@ -2,8 +2,8 @@
   <v-row justify="center">
     <v-dialog v-model="dialog.isActive" persistent max-width="600px">
       <form-edit v-if="dialog.mode === 'edit'" />
-      <form-create v-if="dialog.mode === 'create'" />
-      <card-confirm v-if="dialog.mode === 'deleteRecipe'" />
+      <form-create v-else-if="dialog.mode === 'create'" />
+      <card-confirm v-else-if="dialog.mode === 'deleteRecipe'" />
     </v-dialog>
   </v-row>
 </template>
