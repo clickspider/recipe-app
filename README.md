@@ -31,9 +31,9 @@ After performing this assignment, I realized that the JS community is moving ver
 
 - **Testing:** Due to limited time, I did not cover the application with tests. However, it is something I'm willing to work on as well as learn and adapt.
 
-## To-do
-[ ] Improve liking system.
-[ ] Improve recipe list rendering time [in case there is a lot of recipes].
+### To-do
+- [ ] Improve liking system.
+- [ ] Improve recipe list rendering time [in case there is a lot of recipes].
 
 ### Demo images
 ![Stock list](image-login.png)
