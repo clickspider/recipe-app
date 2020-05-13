@@ -5,7 +5,6 @@
       <p>Do you have an account? <router-link to="/login">Login</router-link></p>
       <p>You are new? <router-link to="/signup">Signup</router-link></p> -->
     </p>
-
     <recipes />
   </section>
 </template>

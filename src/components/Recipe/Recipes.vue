@@ -2,12 +2,16 @@
   <card-loader v-if="loading && recipes.length === 0" />
   <section v-else>
     <create-button />
-    <recipe-card
-      v-for="recipe in recipes"
-      :key="recipe.id"
-      :recipe="recipe"
-      :loading="loading"
-    />
+    <v-row dense>
+      <v-col
+        v-for="recipe in recipes"
+        :key="recipe.id"
+        md="4"
+        class="align-start"
+      >
+        <recipe-card :recipe="recipe" :loading="loading" />
+      </v-col>
+    </v-row>
   </section>
 </template>
 
