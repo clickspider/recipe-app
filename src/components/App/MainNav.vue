@@ -2,8 +2,8 @@
   <v-navigation-drawer v-model="getDrawer" fixed left temporary color="#F9F5F3">
     <v-list nav dense>
       <v-list-item-group v-model="group" active-class="text--accent-4">
-        <app-list-item :items="itemsUserIn" v-if="loggedIn" />
-        <app-list-item :items="itemsUserOut" v-else />
+        <app-list-item :items="loggedInListItems" v-if="loggedIn" />
+        <app-list-item :items="loggedOutListItems" v-else />
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -17,10 +17,10 @@ export default {
   data() {
     return {
       group: null,
-      itemsUserIn: [
+      loggedInListItems: [
         { title: "Dashboard", icon: "mdi-view-dashboard", url: "/dashboard" }
       ],
-      itemsUserOut: [
+      loggedOutListItems: [
         { title: "Home", icon: "mdi-home", url: "/home" },
         { title: "Login", icon: "mdi-login", url: "/login" },
         { title: "Signup", icon: "mdi-account-plus-outline", url: "/signup" }
@@ -35,7 +35,9 @@ export default {
         return this.drawer;
       },
       set(newVal) {
-        newVal !== this.drawer ? this.setDrawer(newVal) : newVal;
+        if (newVal !== this.drawer) {
+          this.setDrawer(newVal);
+        }
         return newVal;
       }
     }

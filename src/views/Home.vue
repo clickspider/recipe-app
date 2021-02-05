@@ -1,25 +1,20 @@
 <template>
-  <section class="home-recipes-view">
-    <p class="section-welcome">
-      <!-- <h1>Welcome to ABN-Recipe</h1>
-      <p>Do you have an account? <router-link to="/login">Login</router-link></p>
-      <p>You are new? <router-link to="/signup">Signup</router-link></p> -->
-    </p>
+  <section class="home-recipes-viee text-center">
+    <v-alert border="top" color="#f48982" dark dismissible>
+      Welcome to the Recipe App! <br />
+      Please login/register to have access to all the features!
+    </v-alert>
     <recipes />
   </section>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import Recipes from "@/components/Recipe/Recipes.vue";
 export default {
   name: "home",
   inject: ["theme"],
   components: {
     Recipes
-  },
-  computed: {
-    ...mapGetters(["loggedIn"])
   }
 };
 </script>

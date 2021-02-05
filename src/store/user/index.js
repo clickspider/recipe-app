@@ -1,74 +1,77 @@
-import * as firebase from "firebase";
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-param-reassign */
+/* eslint-disable guard-for-in */
+import * as firebase from 'firebase';
 
 export default {
   state: {
     // Use this to store your data
-    user: null
+    user: null,
   },
 
   mutations: {
     // Use this to change the data
     likeRecipe(state, payload) {
-      const id = payload.id;
-      const favRecipes = state.user.favRecipes;
-      if (state.user.favRecipes.findIndex(recipe => recipe.id === id) >= 0) {
+      const { id } = payload;
+      const { favRecipes } = state.user;
+      if (state.user.favRecipes.findIndex((recipe) => recipe.id === id) >= 0) {
         return;
       }
       favRecipes.push(payload);
     },
     dislikeRecipe(state, payload) {
-      const favRecipes = state.user.favRecipes;
+      const { favRecipes } = state.user;
       favRecipes.splice(
-        favRecipes.findIndex(recipe => recipe.id === payload.id),
-        1
+        favRecipes.findIndex((recipe) => recipe.id === payload.id),
+        1,
       );
     },
 
     setUser(state, payload) {
       state.user = payload;
-    }
+    },
   },
 
   actions: {
     // Use this to call the change/mutation^
     autoSignin({ commit }, payload) {
-      commit("setUser", { id: payload.uid, favRecipes: [], fbKeys: {} });
+      commit('setUser', { id: payload.uid, favRecipes: [], fbKeys: {} });
     },
 
     async fetchUserData({ commit, getters }) {
-      commit("setLoading", true);
+      commit('setLoading', true);
 
       try {
         const data = await firebase
           .database()
-          .ref("/users/" + getters.user.id + "/favRecipes/")
-          .once("value");
+          .ref(`/users/${getters.user.id}/favRecipes/`)
+          .once('value');
 
         const dataParis = data.val();
-        let favRecipes = [];
-        for (let key in dataParis) {
+        const favRecipes = [];
+        for (const key in dataParis) {
           favRecipes.push({
             id: dataParis[key].id,
-            fbKey: dataParis[key].fbKey
+            fbKey: dataParis[key].fbKey,
           });
         }
         const updatedUser = {
           id: getters.user.id,
-          favRecipes
+          favRecipes,
         };
-        commit("setLoading", false);
-        commit("setUser", updatedUser);
+        commit('setLoading', false);
+        commit('setUser', updatedUser);
       } catch (err) {
-        commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit('setLoading', false);
+        commit('setAlert', { message: err.message, type: 'error' });
       }
     },
 
     async likeRecipe({ commit, getters }, payload) {
-      commit("setLoading", true);
-      const user = getters.user;
+      commit('setLoading', true);
+      const { user } = getters;
       const recipe = { id: payload.id, fbKey: null };
-      const ref = "/users/" + user.id + "/favRecipes/";
+      const ref = `/users/${user.id}/favRecipes/`;
       try {
         // Like Recipe
         const data = await firebase
@@ -84,102 +87,97 @@ export default {
           .ref(ref)
           .child(data.key)
           .update(recipe);
-        commit("setLoading", false);
-        commit("likeRecipe", recipe);
+        commit('setLoading', false);
+        commit('likeRecipe', recipe);
       } catch (err) {
-        commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit('setLoading', false);
+        commit('setAlert', { message: err.message, type: 'error' });
       }
     },
 
     async dislikeRecipe({ commit, getters }, payload) {
-      commit("setLoading", true);
-      const user = getters.user;
-      const recipe = user.favRecipes.find(recipe => recipe.id === payload.id);
+      commit('setLoading', true);
+      const { user } = getters;
+      const recipe = user.favRecipes.find((item) => item.id === payload.id);
       if (!recipe.fbKey) {
         const err = "Can't like a recipe without a FbKey";
-        commit("setAlert", { message: err });
+        commit('setAlert', { message: err });
         return;
       }
-      const fbKey = recipe.fbKey;
+      const { fbKey } = recipe;
       try {
         await firebase
           .database()
-          .ref("/users/" + user.id + "/favRecipes/")
+          .ref(`/users/${user.id}/favRecipes/`)
           .child(fbKey)
           .remove();
-        commit("setLoading", false);
-        commit("dislikeRecipe", recipe);
+        commit('setLoading', false);
+        commit('dislikeRecipe', recipe);
       } catch (err) {
-        commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit('setLoading', false);
+        commit('setAlert', { message: err.message, type: 'error' });
       }
     },
 
     async logUserOut({ commit }) {
       try {
         await firebase.auth().signOut();
-        commit("setAlert", {
-          message: "You have logged out successfully!",
-          type: "success"
+        commit('setAlert', {
+          message: 'You have logged out successfully!',
+          type: 'success',
         });
-        commit("setUser", null);
+        commit('setUser', null);
       } catch (err) {
-        commit("setAlert", { message: err.message, type: "error" });
+        commit('setAlert', { message: err.message, type: 'error' });
       }
     },
 
     async signUserUp({ commit }, payload) {
-      commit("setLoading", true);
+      commit('setLoading', true);
 
       try {
         const newUser = await firebase
           .auth()
           .createUserWithEmailAndPassword(payload.email, payload.password);
-        commit("setAlert", {
-          message: "You have registered successfully!",
-          type: "success"
+        commit('setAlert', {
+          message: 'You have registered successfully!',
+          type: 'success',
         });
-        commit("setLoading", false);
-        commit("setUser", { id: newUser.user.uid, favRecipes: [], fbKeys: {} });
+        commit('setLoading', false);
+        commit('setUser', { id: newUser.user.uid, favRecipes: [], fbKeys: {} });
       } catch (err) {
-        commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit('setLoading', false);
+        commit('setAlert', { message: err.message, type: 'error' });
       }
     },
 
     async signUserIn({ commit }, payload) {
-      commit("setLoading", true);
+      commit('setLoading', true);
 
       try {
         const user = await firebase
           .auth()
           .signInWithEmailAndPassword(payload.email, payload.password);
-        commit("setLoading", false);
-        commit("setAlert", {
-          message: "You have logged in successfully!",
-          type: "success"
+        commit('setLoading', false);
+        commit('setAlert', {
+          message: 'You have logged in successfully!',
+          type: 'success',
         });
-        commit("setUser", {
+        commit('setUser', {
           id: user.user.uid,
           favRecipes: [],
-          fbKeys: {}
+          fbKeys: {},
         });
       } catch (err) {
-        commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit('setLoading', false);
+        commit('setAlert', { message: err.message, type: 'error' });
       }
-    }
+    },
   },
 
   getters: {
     // Use this to get stored data and change it
-    user: state => {
-      return state.user;
-    },
-
-    loggedIn: state => {
-      return state.user !== null && state.user !== undefined;
-    }
-  }
+    user: (state) => state.user,
+    loggedIn: (state) => state.user !== null && state.user !== undefined,
+  },
 };

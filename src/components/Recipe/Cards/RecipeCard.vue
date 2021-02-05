@@ -6,7 +6,7 @@
     max-width="374"
     :loading="loading"
     :disabled="loading"
-    @dblclick="onDoubleTap(recipe, $event)"
+    @dblclick="onLike(recipe)"
   >
     <v-img
       v-if="loggedIn"
@@ -16,7 +16,7 @@
       :class="{ 'animate-like': heartActive }"
     ></v-img>
 
-    <v-img height="250" :src="recipe.imageUrl"></v-img>
+    <v-img height="250" :alt="recipe.label" :src="recipe.imageUrl" />
 
     <v-row align="center" class="mx-0">
       <v-card-title class="title">
@@ -67,7 +67,9 @@
       >
         <v-icon>mdi-heart</v-icon>
       </v-btn>
-      <v-icon color="red" v-if="!loggedIn">mdi-heart</v-icon>
+      <v-btn icon large color="red" v-if="!loggedIn" @click="onLike(recipe)">
+        <v-icon color="red">mdi-heart</v-icon>
+      </v-btn>
       <span class="ml-1">{{ recipe.likes }} Likes</span>
     </v-row>
 
@@ -77,8 +79,8 @@
       <div class="my-4 subtitle-1">
         <v-row align="center" class="mx-0">
           <v-icon v-if="recipe.vegetarian" color="green" class="mr-2">
-            mdi-leaf</v-icon
-          >
+            mdi-leaf
+          </v-icon>
           <v-icon v-else>mdi-leaf-off</v-icon>
 
           <v-icon class="ml-3 mr-2">mdi-account-group</v-icon>
@@ -166,7 +168,7 @@ export default {
       "dislikeRecipe",
       "addLikeCount",
       "dislikeCount",
-      "error",
+      "setError",
       "setDeleteRecipe"
     ]),
     openModalRecipe(recipe) {
@@ -174,27 +176,14 @@ export default {
       this.updateEditRecipe(recipe);
     },
 
-    onDoubleTap(recipe) {
+    onLike(recipe) {
+      this.heartAnimation();
       if (!this.loggedIn) {
-        return this.error({
+        return this.setError({
           message: "You must login before trying to do any actions!",
           type: "error"
         });
-      } else if (!this.loading) {
-        this.heartActive = true;
-
-        setTimeout(() => {
-          this.heartActive = false;
-        }, 800);
-
-        if (!this.isLiked) {
-          this.likeRecipe(recipe);
-          this.addLikeCount(recipe);
-        }
       }
-    },
-
-    onLike(recipe) {
       if (!this.isLiked && !this.loading) {
         this.likeRecipe(recipe);
         this.addLikeCount(recipe);
@@ -211,6 +200,14 @@ export default {
     onDelete(recipe) {
       this.setDialog({ isActive: true, mode: "deleteRecipe" });
       this.setDeleteRecipe(recipe);
+    },
+
+    heartAnimation() {
+      this.heartActive = true;
+
+      setTimeout(() => {
+        this.heartActive = false;
+      }, 800);
     }
   }
 };

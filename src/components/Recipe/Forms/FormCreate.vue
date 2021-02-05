@@ -20,7 +20,7 @@
                 required
               ></v-file-input>
             </v-col>
-            <img :src="recipe.imageUrl" height="150" />
+            <img :alt="recipe.label" :src="recipe.imageUrl" height="150" />
             <v-col cols="12" sm="6" md="12">
               <v-text-field
                 label="Instructions url*"
@@ -109,7 +109,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text @click="closeModalRecipe" color="error">Cancel</v-btn>
+        <v-btn text color="error" @click="closeModalRecipe">CANCEL</v-btn>
         <v-btn text color="green" @click="addNewRecipe">CREATE</v-btn>
       </v-card-actions>
     </v-card>
@@ -177,9 +177,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["pushNewRecipe", "setDialog", "error"]),
+    ...mapActions(["pushNewRecipe", "setDialog", "clearDialog"]),
     closeModalRecipe() {
-      this.setDialog({ isActive: false, mode: "" });
+      this.clearDialog();
       this.$refs.form.resetValidation();
     },
     addNewRecipe() {
