@@ -2,16 +2,14 @@
   <card-loader v-if="loading && recipes.length === 0" />
   <section v-else>
     <create-button />
-    <v-row dense>
-      <v-col
+    <div class="grid-container">
+      <recipe-card
         v-for="recipe in recipes"
         :key="recipe.id"
-        md="4"
-        class="align-start"
-      >
-        <recipe-card :recipe="recipe" :loading="loading" />
-      </v-col>
-    </v-row>
+        :recipe="recipe"
+        :loading="loading"
+      />
+    </div>
   </section>
 </template>
 
@@ -54,5 +52,14 @@ export default {
 
 .active {
   display: inline-block !important;
+}
+
+.grid-container {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 349px);
+  column-gap: 50px;
+  max-width: 1150px;
+  margin: 0 auto;
 }
 </style>

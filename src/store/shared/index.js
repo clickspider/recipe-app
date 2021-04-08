@@ -5,13 +5,13 @@ export default {
     loading: false,
     drawer: false,
     alert: {
-      message: '',
-      type: '',
+      message: "",
+      type: ""
     },
     dialog: {
       isActive: false,
-      mode: '',
-    },
+      mode: ""
+    }
   },
 
   mutations: {
@@ -35,51 +35,51 @@ export default {
     },
 
     clearAlert(state) {
-      state.alert.message = '';
-      state.alert.type = '';
+      state.alert.message = "";
+      state.alert.type = "";
     },
 
     clearDialog(state) {
       state.dialog.isActive = false;
-      state.dialog.mode = '';
-    },
+      state.dialog.mode = "";
+    }
   },
 
   actions: {
     // Use this to call the change/mutation^
     setLoading({ commit }, payload) {
-      commit('setLoading', payload);
+      commit("setLoading", payload);
     },
 
     setDrawer({ commit }, payload) {
-      commit('setDrawer', payload);
+      commit("setDrawer", payload);
     },
 
     setDialog({ commit }, payload) {
-      commit('setDialog', payload);
+      commit("setDialog", payload);
     },
 
     setError({ commit }, payload) {
-      commit('setAlert', payload);
+      commit("setAlert", payload);
     },
 
     clearAlert({ commit }) {
-      commit('clearAlert');
+      commit("clearAlert");
     },
 
     clearDialog({ commit }) {
-      commit('clearDialog');
-    },
+      commit("clearDialog");
+    }
   },
 
   getters: {
     // Use this to get stored data and change it
-    loading: (state) => state.loading,
+    loading: state => state.loading,
 
-    drawer: (state) => state.drawer,
+    drawer: state => state.drawer,
 
-    alert: (state) => state.alert,
+    alert: state => state.alert,
 
-    dialog: (state) => state.dialog,
-  },
+    dialog: state => state.dialog
+  }
 };

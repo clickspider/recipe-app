@@ -11,7 +11,7 @@
 <script>
 import Recipes from "@/components/Recipe/Recipes.vue";
 export default {
-  name: "home",
+  name: "Home",
   inject: ["theme"],
   components: {
     Recipes

@@ -19,7 +19,8 @@ export default {
   props: {
     items: {
       type: Array,
-      requeird: true
+      requeird: true,
+      default: () => []
     }
   }
 };

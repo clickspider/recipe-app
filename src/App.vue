@@ -17,7 +17,7 @@ import MainHeader from "@/components/App/MainHeader.vue";
 import MainNav from "@/components/App/MainNav.vue";
 
 export default {
-  name: "app",
+  name: "App",
   components: {
     MainHeader,
     MainNav
