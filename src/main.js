@@ -10,7 +10,6 @@ import firebaseConfig from "./firebaseConfig";
 import "./registerServiceWorker";
 import vuetify from "./plugins/vuetify";
 import { store } from "./store/store";
-import MainLoaderCmp from "./components/Shared/CardLoader.vue";
 import AlertCmp from "./components/Shared/Alert.vue";
 import DialogCmp from "./components/Shared/MainDialog.vue";
 import AppListItemCmp from "./components/Shared/Lists/AppListItem.vue";
@@ -20,7 +19,6 @@ Vue.use(VueOffline);
 Vue.config.productionTip = false;
 Vue.component("app-alert", AlertCmp);
 Vue.component("main-dialog", DialogCmp);
-Vue.component("card-loader", MainLoaderCmp);
 Vue.component("app-list-item", AppListItemCmp);
 
 new Vue({

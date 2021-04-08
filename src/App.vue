@@ -3,10 +3,10 @@
     <main-dialog v-if="dialog.isActive" />
     <main-header />
     <main-nav />
-    <v-content>
+    <v-main>
       <app-alert @dismissed="onDismissed" />
       <router-view></router-view>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -26,8 +26,9 @@ export default {
     ...mapGetters(["loading", "dialog", "loggedIn"])
   },
   watch: {
-    loggedIn() {
-      this.$router.push("/");
+    loggedIn(isLoggedIn) {
+      if (isLoggedIn) this.$router.push({ name: "dashboard" });
+      return this.$router.push({ name: "home" });
     }
   },
   methods: {

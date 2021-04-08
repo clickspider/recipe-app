@@ -1,9 +1,7 @@
 <template>
   <v-card
-    class="mx-auto my-12"
     color="#F9F5F3"
     style="cursor: pointer; position: relative;"
-    max-width="374"
     :loading="loading"
     :disabled="loading"
     @dblclick="onLike(recipe)"
@@ -14,13 +12,13 @@
       large
       class="heart-icon"
       :class="{ 'animate-like': heartActive }"
-    ></v-img>
+    />
 
     <v-img height="250" :alt="recipe.label" :src="recipe.imageUrl" />
 
     <v-row align="center" class="mx-0">
-      <v-card-title class="title">
-        <span :class="{ title__overflow: userIsCreator }">
+      <v-card-title class="recipe-title">
+        <span :title="recipe.label" class="recipe-title__overflow">
           {{ recipe.label }}
         </span>
       </v-card-title>
@@ -70,7 +68,7 @@
       <v-btn icon large color="red" v-if="!loggedIn" @click="onLike(recipe)">
         <v-icon color="red">mdi-heart</v-icon>
       </v-btn>
-      <span class="ml-1">{{ recipe.likes }} Likes</span>
+      <span class="mx-1">{{ recipe.likes }} Likes</span>
     </v-row>
 
     <v-card-text>
@@ -214,6 +212,17 @@ export default {
 </script>
 
 <style lang="scss">
+.recipe-title {
+  line-height: 4rem !important;
+  max-width: 245px;
+  padding-left: 10px;
+  &__overflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
 .heart-icon {
   position: absolute;
   top: 50%;

@@ -1,10 +1,10 @@
 <template>
-  <section class="home-recipes-viee text-center">
+  <section class="text-center">
     <v-alert border="top" color="#f48982" dark dismissible>
       Welcome to the Recipe App! <br />
       Please login/register to have access to all the features!
     </v-alert>
-    <recipes />
+    <recipes class="home-recipes-view" />
   </section>
 </template>
 
@@ -18,3 +18,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.home-recipes-view {
+  margin-top: 60px;
+}
+</style>

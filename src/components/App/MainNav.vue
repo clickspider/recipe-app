@@ -1,9 +1,20 @@
 <template>
   <v-navigation-drawer v-model="getDrawer" fixed left temporary color="#F9F5F3">
     <v-list nav dense>
-      <v-list-item-group v-model="group" active-class="text--accent-4">
-        <app-list-item :items="loggedInListItems" v-if="loggedIn" />
-        <app-list-item :items="loggedOutListItems" v-else />
+      <v-list-item-group v-if="loggedIn" active-class="text--accent-4">
+        <app-list-item
+          v-for="loggedInItem in loggedInListItems"
+          :key="loggedInItem.title"
+          :item="loggedInItem"
+        />
+      </v-list-item-group>
+
+      <v-list-item-group v-else active-class="text--accent-4">
+        <app-list-item
+          v-for="loggedOutItem in loggedOutListItems"
+          :key="loggedOutItem.title"
+          :item="loggedOutItem"
+        />
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -45,12 +56,6 @@ export default {
 
   methods: {
     ...mapActions(["setDrawer"])
-  },
-
-  watch: {
-    group() {
-      this.setDrawer(false);
-    }
   }
 };
 </script>

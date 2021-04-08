@@ -145,9 +145,9 @@ export default {
         });
         commit("setLoading", false);
         commit("setUser", { id: newUser.user.uid, favRecipes: [], fbKeys: {} });
-      } catch (err) {
+      } catch ({ message }) {
         commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit("setAlert", { message, type: "error" });
       }
     },
 
@@ -168,9 +168,9 @@ export default {
           favRecipes: [],
           fbKeys: {}
         });
-      } catch (err) {
+      } catch ({ message }) {
         commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit("setAlert", { message, type: "error" });
       }
     }
   },

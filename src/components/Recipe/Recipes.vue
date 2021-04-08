@@ -1,8 +1,19 @@
 <template>
-  <card-loader v-if="loading && recipes.length === 0" />
-  <section v-else>
+  <section>
     <create-button />
-    <div class="grid-container">
+    <div
+      class="grid-card-container grid-card-container__skeleton"
+      v-if="loading && recipes.length === 0"
+    >
+      <v-skeleton-loader
+        v-for="(cards, index) in 9"
+        :key="index"
+        type="card"
+        :elevation="10"
+      />
+    </div>
+
+    <div class="grid-card-container" v-else>
       <recipe-card
         v-for="recipe in recipes"
         :key="recipe.id"
@@ -31,21 +42,6 @@ export default {
 </script>
 
 <style lang="scss">
-.title {
-  max-width: 250px;
-  &__overflow {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
-
-.recipe-card {
-  text-align: center;
-  width: 400px;
-  margin-top: 30px;
-}
-
 .display-none {
   display: none;
 }
@@ -54,12 +50,17 @@ export default {
   display: inline-block !important;
 }
 
-.grid-container {
+.grid-card-container {
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, 349px);
-  column-gap: 50px;
+  grid-template-columns: repeat(auto-fit, 350px);
+  gap: 50px;
   max-width: 1150px;
   margin: 0 auto;
+  text-align: left;
+
+  &__skeleton {
+    row-gap: 50px;
+  }
 }
 </style>

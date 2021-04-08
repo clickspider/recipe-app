@@ -13,8 +13,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Home.vue"),
+    component: () => import(/* webpackChunkName: "Home" */ "../views/Home.vue"),
     meta: {
       requiredVisitor: true
     }
@@ -26,13 +25,13 @@ const routes = [
       requiresAuth: true
     },
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Dashboard.vue")
+      import(/* webpackChunkName: "Dashboard" */ "../views/Dashboard.vue")
   },
   {
     path: "/login",
     name: "Login",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/User/Login.vue"),
+      import(/* webpackChunkName: "Login" */ "../components/User/Login.vue"),
     meta: {
       requiredVisitor: true
     }
@@ -41,7 +40,7 @@ const routes = [
     path: "/signup",
     name: "Signup",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/User/Signup.vue"),
+      import(/* webpackChunkName: "Signup" */ "../components/User/Signup.vue"),
     meta: {
       requiredVisitor: true
     }
