@@ -16,9 +16,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.home-recipes-view {
-  margin: 60px 0;
-}
-</style>

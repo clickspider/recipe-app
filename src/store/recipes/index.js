@@ -126,7 +126,7 @@ export default {
     },
 
     async retrieveRecipes({ commit }) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
 
       try {
         const DATA = await firebase
@@ -151,16 +151,16 @@ export default {
             creatorId: obj[key].creatorId
           });
         }
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("loadedRecipes", recipes);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async pushNewRecipe({ commit }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
       let imageUrl;
       let key;
       try {
@@ -193,16 +193,16 @@ export default {
           message: "You have added a new recipe successfully!",
           type: "success"
         });
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("pushNewRecipe", payload);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async updateRecipe({ commit }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
       let imageUrl;
       try {
         if (payload.image) {
@@ -235,15 +235,15 @@ export default {
           message: "You have updated your recipe successfully!",
           type: "success"
         });
-        commit("setLoading", false);
+        commit("setIsLoading", false);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async deleteRecipe({ commit }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
       try {
         // Update props on the DB
         await firebase
@@ -255,16 +255,16 @@ export default {
           message: "You have deleted your recipe successfully!",
           type: "success"
         });
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("deleteRecipe", payload);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async addLikeCount({ commit }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
       const recipe = { ...payload };
       try {
         recipe.likes += 1;
@@ -277,16 +277,16 @@ export default {
           .child(payload.id)
           .update(recipe);
 
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("addLikeCount", payload);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async dislikeCount({ commit }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
       const recipe = { ...payload };
       try {
         recipe.likes -= 1;
@@ -298,10 +298,10 @@ export default {
           .ref("recipes")
           .child(payload.id)
           .update(recipe);
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("dislikeCount", payload);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     }

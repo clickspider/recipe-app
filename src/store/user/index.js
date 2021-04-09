@@ -39,7 +39,7 @@ export default {
     },
 
     async fetchUserData({ commit, getters }) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
 
       try {
         const data = await firebase
@@ -59,16 +59,16 @@ export default {
           id: getters.user.id,
           favRecipes
         };
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setUser", updatedUser);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async likeRecipe({ commit, getters }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
       const { user } = getters;
       const recipe = { id: payload.id, fbKey: null };
       const ref = `/users/${user.id}/favRecipes/`;
@@ -87,16 +87,16 @@ export default {
           .ref(ref)
           .child(data.key)
           .update(recipe);
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("likeRecipe", recipe);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async dislikeRecipe({ commit, getters }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
       const { user } = getters;
       const recipe = user.favRecipes.find(item => item.id === payload.id);
       if (!recipe.fbKey) {
@@ -111,10 +111,10 @@ export default {
           .ref(`/users/${user.id}/favRecipes/`)
           .child(fbKey)
           .remove();
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("dislikeRecipe", recipe);
       } catch (err) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
@@ -133,7 +133,7 @@ export default {
     },
 
     async signUserUp({ commit }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
 
       try {
         const newUser = await firebase
@@ -143,22 +143,22 @@ export default {
           message: "You have registered successfully!",
           type: "success"
         });
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setUser", { id: newUser.user.uid, favRecipes: [], fbKeys: {} });
       } catch ({ message }) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message, type: "error" });
       }
     },
 
     async signUserIn({ commit }, payload) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
 
       try {
         const user = await firebase
           .auth()
           .signInWithEmailAndPassword(payload.email, payload.password);
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", {
           message: "You have logged in successfully!",
           type: "success"
@@ -169,18 +169,18 @@ export default {
           fbKeys: {}
         });
       } catch ({ message }) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message, type: "error" });
       }
     },
 
     async googleSignUserIn({ commit }) {
-      commit("setLoading", true);
+      commit("setIsLoading", true);
 
       try {
         const provider = new firebase.auth.GoogleAuthProvider();
         const user = await firebase.auth().signInWithPopup(provider);
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", {
           message: "You have logged in successfully!",
           type: "success"
@@ -191,7 +191,7 @@ export default {
           fbKeys: {}
         });
       } catch ({ message }) {
-        commit("setLoading", false);
+        commit("setIsLoading", false);
         commit("setAlert", { message, type: "error" });
       }
     }
