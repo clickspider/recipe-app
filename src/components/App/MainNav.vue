@@ -32,7 +32,7 @@ export default {
         { title: "Dashboard", icon: "mdi-view-dashboard", url: "/dashboard" }
       ],
       loggedOutListItems: [
-        { title: "Home", icon: "mdi-home", url: "/home" },
+        { title: "Dashboard", icon: "mdi-view-dashboard", url: "/dashboard" },
         { title: "Login", icon: "mdi-login", url: "/login" },
         { title: "Signup", icon: "mdi-account-plus-outline", url: "/signup" }
       ]

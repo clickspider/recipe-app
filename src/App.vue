@@ -27,8 +27,7 @@ export default {
   },
   watch: {
     loggedIn(isLoggedIn) {
-      if (isLoggedIn) this.$router.push({ name: "dashboard" });
-      return this.$router.push({ name: "home" });
+      if (isLoggedIn) return this.$router.push({ name: "Dashboard" });
     }
   },
   methods: {

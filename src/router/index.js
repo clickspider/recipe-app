@@ -12,18 +12,7 @@ const routes = [
   },
   {
     path: "/",
-    name: "home",
-    component: () => import(/* webpackChunkName: "Home" */ "../views/Home.vue"),
-    meta: {
-      requiredVisitor: true
-    }
-  },
-  {
-    path: "/dashboard",
-    name: "dashboard",
-    meta: {
-      requiresAuth: true
-    },
+    name: "Dashboard",
     component: () =>
       import(/* webpackChunkName: "Dashboard" */ "../views/Dashboard.vue")
   },
@@ -57,7 +46,7 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (!store.getters.loggedIn) {
       next({
-        name: "home"
+        name: "Dashboard"
       });
     } else {
       next();
@@ -67,7 +56,7 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (store.getters.loggedIn) {
       next({
-        name: "dashboard"
+        name: "Dashboard"
       });
     } else {
       next();
