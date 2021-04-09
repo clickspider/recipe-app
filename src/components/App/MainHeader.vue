@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app color="#F9F5F3" light>
-    <v-app-bar-nav-icon @click.stop="setDrawer(!drawer)"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click.stop="setDrawer(!drawer)" />
 
     <div class="d-flex align-center">
       <router-link to="/">
@@ -15,7 +15,7 @@
       </router-link>
     </div>
 
-    <v-spacer></v-spacer>
+    <v-spacer />
     <div class="flex-wrap">
       <div v-if="loggedIn">
         <v-btn

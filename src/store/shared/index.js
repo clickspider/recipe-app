@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 export default {
   state: {
     // Use this to store your data
@@ -29,13 +30,18 @@ export default {
       state.alert.type = payload.type;
     },
 
+    setDrawer(state, payload) {
+      state.drawer = payload;
+    },
+
     clearAlert(state) {
       state.alert.message = "";
       state.alert.type = "";
     },
 
-    setDrawer(state, payload) {
-      state.drawer = payload;
+    clearDialog(state) {
+      state.dialog.isActive = false;
+      state.dialog.mode = "";
     }
   },
 
@@ -43,10 +49,6 @@ export default {
     // Use this to call the change/mutation^
     setLoading({ commit }, payload) {
       commit("setLoading", payload);
-    },
-
-    clearAlert({ commit }) {
-      commit("clearAlert");
     },
 
     setDrawer({ commit }, payload) {
@@ -57,27 +59,27 @@ export default {
       commit("setDialog", payload);
     },
 
-    error({ commit }, payload) {
+    setError({ commit }, payload) {
       commit("setAlert", payload);
+    },
+
+    clearAlert({ commit }) {
+      commit("clearAlert");
+    },
+
+    clearDialog({ commit }) {
+      commit("clearDialog");
     }
   },
 
   getters: {
     // Use this to get stored data and change it
-    loading: state => {
-      return state.loading;
-    },
+    loading: state => state.loading,
 
-    drawer: state => {
-      return state.drawer;
-    },
+    drawer: state => state.drawer,
 
-    alert: state => {
-      return state.alert;
-    },
+    alert: state => state.alert,
 
-    dialog: state => {
-      return state.dialog;
-    }
+    dialog: state => state.dialog
   }
 };

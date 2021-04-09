@@ -178,9 +178,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["updateRecipe", "updateEditRecipe", "setDialog"]),
+    ...mapActions([
+      "updateRecipe",
+      "updateEditRecipe",
+      "setDialog",
+      "clearDialog"
+    ]),
     closeModalRecipe() {
-      this.setDialog({ isActive: false, mode: "" });
+      this.clearDialog();
       this.updateEditRecipe([]);
       this.$refs.form.resetValidation();
     },

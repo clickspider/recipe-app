@@ -76,7 +76,7 @@ export default {
       show: false,
       email: "",
       emailRules: [
-        v => !!v || "User Name is required",
+        v => !!v || "Email is required",
         v =>
           /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
           "E-mail must be valid"
@@ -91,10 +91,12 @@ export default {
   methods: {
     ...mapActions(["signUserIn", "clearAlert"]),
     onLogin() {
-      const validate = this.$refs.form.validate();
-      validate && this.email !== "" && this.password !== ""
-        ? this.signUserIn({ email: this.email, password: this.password })
-        : false;
+      const isFormVaild = this.$refs.form.validate();
+      const { email, password } = this;
+      if (isFormVaild) {
+        return this.signUserIn({ email, password });
+      }
+      return false;
     },
     onDismissed() {
       this.clearAlert();

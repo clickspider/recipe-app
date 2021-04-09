@@ -7,7 +7,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn color="error" text @click="closeDialog">
+      <v-btn color="error" text @click="clearDialog()">
         Disagree
       </v-btn>
 
@@ -27,14 +27,10 @@ export default {
     ...mapGetters(["dialog", "recipeToDelete"])
   },
   methods: {
-    ...mapActions(["deleteRecipe", "setDialog"]),
+    ...mapActions(["deleteRecipe", "setDialog", "clearDialog"]),
     onDelete() {
       this.deleteRecipe(this.recipeToDelete);
-      this.closeDialog();
-    },
-
-    closeDialog() {
-      this.setDialog({ isActive: false, mode: "" });
+      this.clearDialog();
     }
   }
 };
