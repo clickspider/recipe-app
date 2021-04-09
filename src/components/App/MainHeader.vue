@@ -19,8 +19,8 @@
     <div class="flex-wrap">
       <div v-if="loggedIn">
         <v-btn
-          :loading="loading"
-          :disabled="loading"
+          :loading="isLoading"
+          :disabled="isLoading"
           class="btn-primary mr-5 mr-sm-5"
           @click="loader = 'loading'"
         >
@@ -67,7 +67,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["loggedIn", "loading", "drawer"])
+    ...mapGetters(["loggedIn", "isLoading", "drawer"])
   },
 
   methods: {

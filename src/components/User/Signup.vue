@@ -2,6 +2,14 @@
   <v-container>
     <v-layout row>
       <v-flex xs11 sm6 offset-sm3 class="mx-auto mt-10">
+        <v-btn
+          @click="googleSignUserIn"
+          color="color-primary mb-10"
+          :loading="isLoading"
+        >
+          <v-icon left dark>mdi-google</v-icon>
+          Sign up with Google
+        </v-btn>
         <v-card class="elevation-12">
           <v-toolbar class="color-primary" flat>
             <v-toolbar-title>Sign up</v-toolbar-title>
@@ -61,8 +69,8 @@
                   <v-btn
                     type="submit"
                     class="btn-primary"
-                    :disabled="loading"
-                    :loading="loading"
+                    :disabled="isLoading"
+                    :loading="isLoading"
                   >
                     Register <v-icon>mdi-login</v-icon>
                     <template v-slot:loader>
@@ -94,7 +102,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "loading", "loggedIn"]),
+    ...mapGetters(["user", "isLoading", "loggedIn"]),
     comparePasswords() {
       return this.password !== this.confirmPassword
         ? "Passwords do not match"
@@ -109,7 +117,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["signUserUp", "clearAlert"]),
+    ...mapActions(["signUserUp", "clearAlert", "googleSignUserIn"]),
     onSignup() {
       const validate = this.$refs.form.validate();
       const { email, password } = this;

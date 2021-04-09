@@ -3,7 +3,7 @@
     <create-button />
     <div
       class="grid-card-container grid-card-container__skeleton"
-      v-if="loading && recipes.length === 0"
+      v-if="isLoading && recipes.length === 0"
     >
       <v-skeleton-loader
         v-for="(cards, index) in 9"
@@ -18,7 +18,7 @@
         v-for="recipe in recipes"
         :key="recipe.id"
         :recipe="recipe"
-        :loading="loading"
+        :loading="isLoading"
       />
     </div>
   </section>
@@ -36,7 +36,7 @@ export default {
     CreateButton
   },
   computed: {
-    ...mapGetters(["recipes", "loading", "loggedIn"])
+    ...mapGetters(["recipes", "isLoading", "loggedIn"])
   }
 };
 </script>

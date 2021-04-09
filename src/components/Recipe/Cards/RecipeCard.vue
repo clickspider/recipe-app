@@ -2,8 +2,8 @@
   <v-card
     color="#F9F5F3"
     style="cursor: pointer; position: relative;"
-    :loading="loading"
-    :disabled="loading"
+    :loading="isLoading"
+    :disabled="isLoading"
     @dblclick="onLike(recipe)"
   >
     <v-img
@@ -131,7 +131,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["loading", "loggedIn", "user"]),
+    ...mapGetters(["isLoading", "loggedIn", "user"]),
     userIsCreator() {
       if (!this.loggedIn) {
         return false;
@@ -182,14 +182,14 @@ export default {
           type: "error"
         });
       }
-      if (!this.isLiked && !this.loading) {
+      if (!this.isLiked && !this.isLoading) {
         this.likeRecipe(recipe);
         this.addLikeCount(recipe);
       }
     },
 
     onDislike(recipe) {
-      if (this.isLiked && !this.loading) {
+      if (this.isLiked && !this.isLoading) {
         this.dislikeRecipe(recipe);
         this.dislikeCount(recipe);
       }

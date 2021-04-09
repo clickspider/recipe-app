@@ -2,7 +2,7 @@
 export default {
   state: {
     // Use this to store your data
-    loading: false,
+    isLoading: false,
     drawer: false,
     alert: {
       message: "",
@@ -21,8 +21,8 @@ export default {
       state.dialog.mode = payload.mode;
     },
 
-    setLoading(state, payload) {
-      state.loading = payload;
+    setIsLoading(state, payload) {
+      state.isLoading = payload;
     },
 
     setAlert(state, payload) {
@@ -47,8 +47,8 @@ export default {
 
   actions: {
     // Use this to call the change/mutation^
-    setLoading({ commit }, payload) {
-      commit("setLoading", payload);
+    setIsLoading({ commit }, payload) {
+      commit("setIsLoading", payload);
     },
 
     setDrawer({ commit }, payload) {
@@ -74,7 +74,7 @@ export default {
 
   getters: {
     // Use this to get stored data and change it
-    loading: state => state.loading,
+    isLoading: state => state.isLoading,
 
     drawer: state => state.drawer,
 

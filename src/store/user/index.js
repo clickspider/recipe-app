@@ -172,6 +172,28 @@ export default {
         commit("setLoading", false);
         commit("setAlert", { message, type: "error" });
       }
+    },
+
+    async googleSignUserIn({ commit }) {
+      commit("setLoading", true);
+
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const user = await firebase.auth().signInWithPopup(provider);
+        commit("setLoading", false);
+        commit("setAlert", {
+          message: "You have logged in successfully!",
+          type: "success"
+        });
+        commit("setUser", {
+          id: user.user.uid,
+          favRecipes: [],
+          fbKeys: {}
+        });
+      } catch ({ message }) {
+        commit("setLoading", false);
+        commit("setAlert", { message, type: "error" });
+      }
     }
   },
 

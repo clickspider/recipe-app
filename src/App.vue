@@ -23,7 +23,7 @@ export default {
     MainNav
   },
   computed: {
-    ...mapGetters(["loading", "dialog", "loggedIn"])
+    ...mapGetters(["isLoading", "dialog", "loggedIn"])
   },
   watch: {
     loggedIn(isLoggedIn) {
