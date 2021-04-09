@@ -19,6 +19,6 @@ export default {
 
 <style lang="scss">
 .home-recipes-view {
-  margin-top: 60px;
+  margin: 60px 0;
 }
 </style>
