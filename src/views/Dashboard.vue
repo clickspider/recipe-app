@@ -1,9 +1,9 @@
 <template>
-  <section class="home-recipes-view">
-    <h1 class="text-center my-5 display-2">
-      Welcome back!
-    </h1>
-    <recipes />
+  <section>
+    <v-alert class="text-center" border="top" color="#f48982" dark dismissible>
+      Welcome to the Recipe App!
+    </v-alert>
+    <recipes class="home-recipes-view" />
   </section>
 </template>
 
@@ -16,3 +16,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.home-recipes-view {
+  margin-top: 60px;
+}
+</style>

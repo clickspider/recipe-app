@@ -22,14 +22,15 @@ export default {
     ...mapGetters(["loggedIn"])
   },
   methods: {
-    ...mapActions(["setDialog", "error"]),
+    ...mapActions(["setDialog", "setError"]),
     onClick() {
-      if (!this.loggedIn)
-        return this.error({
+      if (!this.loggedIn) {
+        return this.setError({
           message: "You must login before trying to do any actions!",
           type: "error"
         });
-      this.setDialog({ isActive: true, mode: "create" });
+      }
+      return this.setDialog({ isActive: true, mode: "create" });
     }
   }
 };

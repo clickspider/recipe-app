@@ -1,3 +1,7 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-console */
+/* eslint-disable no-param-reassign */
 import * as firebase from "firebase";
 
 export default {
@@ -52,8 +56,8 @@ export default {
       //   numOfPeople: "1-2"
       // }
     ],
-    editRecipe: [], // This is the recipe that will be edited/if no recipe given then it's count as 'create recipe'
-    recipeToDelete: [] // This is recipe to delete [option to undo]
+    editRecipe: [],
+    recipeToDelete: []
   },
 
   mutations: {
@@ -95,7 +99,7 @@ export default {
     addLikeCount(state, payload) {
       const findIndex = state.recipes.findIndex(el => el.id === payload.id);
       if (findIndex !== -1) {
-        state.recipes[findIndex].likes = state.recipes[findIndex].likes + 1;
+        state.recipes[findIndex].likes += 1;
       } else {
         console.error("Couldn't find Recipe to Like");
       }
@@ -104,7 +108,7 @@ export default {
     dislikeCount(state, payload) {
       const findIndex = state.recipes.findIndex(el => el.id === payload.id);
       if (findIndex !== -1) {
-        state.recipes[findIndex].likes = state.recipes[findIndex].likes - 1;
+        state.recipes[findIndex].likes -= 1;
       } else {
         console.error("Couldn't find Recipe to Like");
       }
@@ -132,7 +136,7 @@ export default {
         const recipes = [];
         const obj = DATA.val();
 
-        for (let key in obj) {
+        for (const key in obj) {
           recipes.push({
             id: key,
             likes: obj[key].likes,
@@ -157,7 +161,8 @@ export default {
 
     async pushNewRecipe({ commit }, payload) {
       commit("setLoading", true);
-      let imageUrl, key;
+      let imageUrl;
+      let key;
       try {
         const recipe = await firebase
           .database()
@@ -262,7 +267,7 @@ export default {
       commit("setLoading", true);
       const recipe = { ...payload };
       try {
-        recipe.likes = recipe.likes + 1;
+        recipe.likes += 1;
         recipe.image = 0;
 
         // Update props on the DB
@@ -284,7 +289,7 @@ export default {
       commit("setLoading", true);
       const recipe = { ...payload };
       try {
-        recipe.likes = recipe.likes - 1;
+        recipe.likes -= 1;
         recipe.image = 0;
 
         // Update props on the DB
@@ -304,14 +309,8 @@ export default {
 
   getters: {
     // Use this to get stored data and change it
-    recipes: state => {
-      return state.recipes;
-    },
-    editRecipe: state => {
-      return state.editRecipe;
-    },
-    recipeToDelete: state => {
-      return state.recipeToDelete;
-    }
+    recipes: state => state.recipes,
+    editRecipe: state => state.editRecipe,
+    recipeToDelete: state => state.recipeToDelete
   }
 };

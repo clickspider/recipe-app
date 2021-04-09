@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-param-reassign */
+/* eslint-disable guard-for-in */
 import * as firebase from "firebase";
 
 export default {
@@ -9,15 +12,15 @@ export default {
   mutations: {
     // Use this to change the data
     likeRecipe(state, payload) {
-      const id = payload.id;
-      const favRecipes = state.user.favRecipes;
+      const { id } = payload;
+      const { favRecipes } = state.user;
       if (state.user.favRecipes.findIndex(recipe => recipe.id === id) >= 0) {
         return;
       }
       favRecipes.push(payload);
     },
     dislikeRecipe(state, payload) {
-      const favRecipes = state.user.favRecipes;
+      const { favRecipes } = state.user;
       favRecipes.splice(
         favRecipes.findIndex(recipe => recipe.id === payload.id),
         1
@@ -41,12 +44,12 @@ export default {
       try {
         const data = await firebase
           .database()
-          .ref("/users/" + getters.user.id + "/favRecipes/")
+          .ref(`/users/${getters.user.id}/favRecipes/`)
           .once("value");
 
         const dataParis = data.val();
-        let favRecipes = [];
-        for (let key in dataParis) {
+        const favRecipes = [];
+        for (const key in dataParis) {
           favRecipes.push({
             id: dataParis[key].id,
             fbKey: dataParis[key].fbKey
@@ -66,9 +69,9 @@ export default {
 
     async likeRecipe({ commit, getters }, payload) {
       commit("setLoading", true);
-      const user = getters.user;
+      const { user } = getters;
       const recipe = { id: payload.id, fbKey: null };
-      const ref = "/users/" + user.id + "/favRecipes/";
+      const ref = `/users/${user.id}/favRecipes/`;
       try {
         // Like Recipe
         const data = await firebase
@@ -94,18 +97,18 @@ export default {
 
     async dislikeRecipe({ commit, getters }, payload) {
       commit("setLoading", true);
-      const user = getters.user;
-      const recipe = user.favRecipes.find(recipe => recipe.id === payload.id);
+      const { user } = getters;
+      const recipe = user.favRecipes.find(item => item.id === payload.id);
       if (!recipe.fbKey) {
         const err = "Can't like a recipe without a FbKey";
         commit("setAlert", { message: err });
         return;
       }
-      const fbKey = recipe.fbKey;
+      const { fbKey } = recipe;
       try {
         await firebase
           .database()
-          .ref("/users/" + user.id + "/favRecipes/")
+          .ref(`/users/${user.id}/favRecipes/`)
           .child(fbKey)
           .remove();
         commit("setLoading", false);
@@ -142,9 +145,9 @@ export default {
         });
         commit("setLoading", false);
         commit("setUser", { id: newUser.user.uid, favRecipes: [], fbKeys: {} });
-      } catch (err) {
+      } catch ({ message }) {
         commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit("setAlert", { message, type: "error" });
       }
     },
 
@@ -165,21 +168,16 @@ export default {
           favRecipes: [],
           fbKeys: {}
         });
-      } catch (err) {
+      } catch ({ message }) {
         commit("setLoading", false);
-        commit("setAlert", { message: err.message, type: "error" });
+        commit("setAlert", { message, type: "error" });
       }
     }
   },
 
   getters: {
     // Use this to get stored data and change it
-    user: state => {
-      return state.user;
-    },
-
-    loggedIn: state => {
-      return state.user !== null && state.user !== undefined;
-    }
+    user: state => state.user,
+    loggedIn: state => state.user !== null && state.user !== undefined
   }
 };

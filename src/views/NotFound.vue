@@ -1,3 +1,1 @@
-<template>
-  <div class="error">This page is not found.</div>
-</template>
+<template> <div class="error">This page is not found.</div> </template>;
