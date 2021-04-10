@@ -6,6 +6,7 @@ All notable changes for Recipe-App project will be documented in this file.
 - Improved CSS to support CSS grid. 
 - Adjusted esLint rules.
 - Update packages versions.
+- Added google signin option
 
 ### [1.0.0] - 09-06-2020
 - Releaseing intial MVP.
