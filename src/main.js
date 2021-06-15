@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { mapActions, mapGetters } from "vuex";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 import VueOffline from "vue-offline";
 
 import router from "./router";

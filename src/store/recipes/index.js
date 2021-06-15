@@ -2,7 +2,8 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
   state: {
