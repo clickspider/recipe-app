@@ -18,7 +18,6 @@
         v-for="recipe in recipes"
         :key="recipe.id"
         :recipe="recipe"
-        :loading="isLoading"
       />
     </div>
   </section>
