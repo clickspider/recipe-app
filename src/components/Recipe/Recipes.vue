@@ -3,7 +3,7 @@
     <create-button />
     <div
       class="grid-card-container grid-card-container__skeleton"
-      v-if="isLoading && recipes.length === 0"
+      v-if="isLoading && !recipes.length"
     >
       <v-skeleton-loader
         v-for="(cards, index) in 9"
@@ -13,17 +13,31 @@
       />
     </div>
 
-    <div class="grid-card-container" v-else>
+    <div v-else class="d-none d-lg-grid grid-card-container">
       <recipe-card
         v-for="recipe in recipes"
         :key="recipe.id"
         :recipe="recipe"
+        :loading="isLoading"
       />
     </div>
+
+    <recycle-scroller
+      v-if="!isLoading && recipes.length"
+      class="d-lg-none grid-card-container"
+      page-mode
+      :items="recipes"
+      :item-size="700"
+    >
+      <template v-slot="{ item }">
+        <recipe-card :key="item.id" :recipe="item" />
+      </template>
+    </recycle-scroller>
   </section>
 </template>
 
 <script>
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import { mapGetters } from "vuex";
 import RecipeCard from "./Cards/RecipeCard.vue";
 import CreateButton from "./Buttons/CreateButton.vue";
@@ -41,6 +55,9 @@ export default {
 </script>
 
 <style lang="scss">
+.scroller {
+  height: 100%;
+}
 .display-none {
   display: none;
 }
