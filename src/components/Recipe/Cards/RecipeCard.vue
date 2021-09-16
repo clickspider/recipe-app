@@ -8,7 +8,7 @@
   >
     <v-img
       v-if="loggedIn"
-      src="https://www.freeiconspng.com/thumbs/heart-icon/heart-icon-14.png   "
+      src="https://www.freeiconspng.com/thumbs/heart-icon/heart-icon-14.png"
       large
       class="heart-icon"
       :class="{ 'animate-like': heartActive }"

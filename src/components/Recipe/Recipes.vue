@@ -13,7 +13,7 @@
       />
     </div>
 
-    <div v-else class="d-none d-lg-grid grid-card-container">
+    <div v-else class="grid-card-container">
       <recipe-card
         v-for="recipe in recipes"
         :key="recipe.id"
@@ -21,23 +21,10 @@
         :loading="isLoading"
       />
     </div>
-
-    <recycle-scroller
-      v-if="!isLoading && recipes.length"
-      class="d-lg-none grid-card-container"
-      page-mode
-      :items="recipes"
-      :item-size="700"
-    >
-      <template v-slot="{ item }">
-        <recipe-card :key="item.id" :recipe="item" />
-      </template>
-    </recycle-scroller>
   </section>
 </template>
 
 <script>
-import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import { mapGetters } from "vuex";
 import RecipeCard from "./Cards/RecipeCard.vue";
 import CreateButton from "./Buttons/CreateButton.vue";
@@ -46,11 +33,11 @@ export default {
   name: "Recipes",
   components: {
     RecipeCard,
-    CreateButton
+    CreateButton,
   },
   computed: {
-    ...mapGetters(["recipes", "isLoading", "loggedIn"])
-  }
+    ...mapGetters(["recipes", "isLoading", "loggedIn"]),
+  },
 };
 </script>
 
@@ -72,6 +59,7 @@ export default {
   grid-template-columns: repeat(auto-fit, 350px);
   gap: 50px;
   max-width: 1150px;
+  height: 100%;
   margin: 0 auto;
   text-align: left;
 
