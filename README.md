@@ -1,7 +1,10 @@
 ### Recipe App
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/de5051b6-244d-423c-b8fa-aa6323b83ff1/deploy-status)](https://app.netlify.com/sites/gracious-bhabha-1f6f7b/deploys)
+
+
 #### Global pre-requisites
-- [Node.js](https://nodejs.org/en/) (v12.x or higher, preferably latest LTS)
+- [Node.js](https://nodejs.org/en/) (v14.x or higher, preferably latest LTS)
 - [Vue CLI](https://www.npmjs.com/package/@vue/cli) (v4.0.5 or higher)
 
 #### Getting started
