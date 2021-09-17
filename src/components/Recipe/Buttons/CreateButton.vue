@@ -25,7 +25,7 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["loggedIn"]),
+    ...mapGetters(["loggedIn"])
   },
   methods: {
     ...mapActions(["setDialog", "setError"]),
@@ -33,12 +33,12 @@ export default {
       if (!this.loggedIn) {
         return this.setError({
           message: "You must login before trying to do any actions!",
-          type: "error",
+          type: "error"
         });
       }
       return this.setDialog({ isActive: true, mode: "create" });
-    },
-  },
+    }
+  }
 };
 </script>
 

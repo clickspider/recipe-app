@@ -33,11 +33,11 @@ export default {
   name: "Recipes",
   components: {
     RecipeCard,
-    CreateButton,
+    CreateButton
   },
   computed: {
-    ...mapGetters(["recipes", "isLoading", "loggedIn"]),
-  },
+    ...mapGetters(["recipes", "isLoading", "loggedIn"])
+  }
 };
 </script>
 
