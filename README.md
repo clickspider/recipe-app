@@ -37,7 +37,7 @@ After performing this assignment, I realized that the JS community is moving ver
 - **Testing:** Work in progress (Jest wil; be added)
 
 ### To-do
-- [ ] Improve liking system.
+- [x] Improve liking system.
 - [x] Improve recipe list rendering time [in case there is a lot of recipes] result: will be using Vuetify deafult feature.
 - [ ] Add unit testing (Jest).
 
