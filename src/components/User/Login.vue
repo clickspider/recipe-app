@@ -105,9 +105,6 @@ export default {
         return this.signUserIn({ email, password });
       }
       return false;
-    },
-    onDismissed() {
-      this.clearAlert();
     }
   }
 };

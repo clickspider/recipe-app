@@ -7,7 +7,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn color="error" text @click="clearDialog()">
+      <v-btn color="error" text @click="onCancel">
         Disagree
       </v-btn>
 
@@ -19,17 +19,25 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["dialog", "recipeToDelete"])
+    ...mapGetters(["recipeToDelete"])
   },
   methods: {
-    ...mapActions(["deleteRecipe", "setDialog", "clearDialog"]),
+    ...mapActions([
+      "deleteRecipe",
+      "setDialog",
+      "clearDialog",
+      "setDeleteRecipe"
+    ]),
     onDelete() {
       this.deleteRecipe(this.recipeToDelete);
+      this.clearDialog();
+    },
+    onCancel() {
+      this.setDeleteRecipe([]);
       this.clearDialog();
     }
   }

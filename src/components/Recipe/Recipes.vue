@@ -3,7 +3,7 @@
     <create-button />
     <div
       class="grid-card-container grid-card-container__skeleton"
-      v-if="isLoading && recipes.length === 0"
+      v-if="isLoading && !recipes.length"
     >
       <v-skeleton-loader
         v-for="(cards, index) in 9"
@@ -13,7 +13,7 @@
       />
     </div>
 
-    <div class="grid-card-container" v-else>
+    <div v-else class="grid-card-container">
       <recipe-card
         v-for="recipe in recipes"
         :key="recipe.id"
@@ -33,15 +33,18 @@ export default {
   name: "Recipes",
   components: {
     RecipeCard,
-    CreateButton
+    CreateButton,
   },
   computed: {
-    ...mapGetters(["recipes", "isLoading", "loggedIn"])
-  }
+    ...mapGetters(["recipes", "isLoading", "loggedIn"]),
+  },
 };
 </script>
 
 <style lang="scss">
+.scroller {
+  height: 100%;
+}
 .display-none {
   display: none;
 }
@@ -56,6 +59,7 @@ export default {
   grid-template-columns: repeat(auto-fit, 350px);
   gap: 50px;
   max-width: 1150px;
+  height: 100%;
   margin: 0 auto;
   text-align: left;
 

@@ -40,6 +40,11 @@ export default {
 </script>
 
 <style lang="scss">
+@media (min-width: 1264px) {
+  .v-application .d-lg-grid {
+    display: grid !important;
+  }
+}
 .custom-loader {
   animation: loader 1s infinite;
   display: flex;

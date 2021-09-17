@@ -2,7 +2,8 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
   state: {
@@ -264,7 +265,6 @@ export default {
     },
 
     async addLikeCount({ commit }, payload) {
-      commit("setIsLoading", true);
       const recipe = { ...payload };
       try {
         recipe.likes += 1;
@@ -277,16 +277,13 @@ export default {
           .child(payload.id)
           .update(recipe);
 
-        commit("setIsLoading", false);
         commit("addLikeCount", payload);
       } catch (err) {
-        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     },
 
     async dislikeCount({ commit }, payload) {
-      commit("setIsLoading", true);
       const recipe = { ...payload };
       try {
         recipe.likes -= 1;
@@ -298,10 +295,8 @@ export default {
           .ref("recipes")
           .child(payload.id)
           .update(recipe);
-        commit("setIsLoading", false);
         commit("dislikeCount", payload);
       } catch (err) {
-        commit("setIsLoading", false);
         commit("setAlert", { message: err.message, type: "error" });
       }
     }

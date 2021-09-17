@@ -2,13 +2,13 @@
   <v-card
     color="#F9F5F3"
     style="cursor: pointer; position: relative;"
-    :loading="isLoading"
-    :disabled="isLoading"
+    :loading="isLoading || isCardLoading"
+    :disabled="isLoading || isCardLoading"
     @dblclick="onLike(recipe)"
   >
     <v-img
       v-if="loggedIn"
-      src="https://svgshare.com/i/JtP.svg"
+      src="https://www.freeiconspng.com/thumbs/heart-icon/heart-icon-14.png"
       large
       class="heart-icon"
       :class="{ 'animate-like': heartActive }"
@@ -115,13 +115,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
     return {
-      heartActive: false
+      heartActive: false,
+      isCardLoading: false
     };
   },
   props: {
@@ -174,38 +174,43 @@ export default {
       this.updateEditRecipe(recipe);
     },
 
-    onLike(recipe) {
-      this.heartAnimation();
+    async onLike(recipe) {
+      this.heartActive = true;
       if (!this.loggedIn) {
         return this.setError({
           message: "You must login before trying to do any actions!",
           type: "error"
         });
       }
-      if (!this.isLiked && !this.isLoading) {
-        this.likeRecipe(recipe);
-        this.addLikeCount(recipe);
+      if (!this.isLiked && !this.isLoading && !this.isCardLoading) {
+        this.isCardLoading = true;
+        try {
+          await this.likeRecipe(recipe);
+          await this.addLikeCount(recipe);
+          this.isCardLoading = false;
+        } catch (e) {
+          this.isCardLoading = false;
+        }
       }
     },
 
-    onDislike(recipe) {
-      if (this.isLiked && !this.isLoading) {
-        this.dislikeRecipe(recipe);
-        this.dislikeCount(recipe);
+    async onDislike(recipe) {
+      this.heartActive = false;
+      if (this.isLiked && !this.isLoading && !this.isCardLoading) {
+        this.isCardLoading = true;
+        try {
+          await this.dislikeRecipe(recipe);
+          await this.dislikeCount(recipe);
+          this.isCardLoading = false;
+        } catch (e) {
+          this.isCardLoading = false;
+        }
       }
     },
 
     onDelete(recipe) {
       this.setDialog({ isActive: true, mode: "deleteRecipe" });
       this.setDeleteRecipe(recipe);
-    },
-
-    heartAnimation() {
-      this.heartActive = true;
-
-      setTimeout(() => {
-        this.heartActive = false;
-      }, 800);
     }
   }
 };
