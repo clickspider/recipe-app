@@ -34,7 +34,7 @@ After performing this assignment, I realized that the JS community is moving ver
 
 - **Run mode:** The application runs in development mode. In a production-ready application, I would set up configurations for different environments, and utilize environment variables.
 
-- **Testing:** Work in progress (Jest wil; be added)
+- **Testing:** Work in progress (Jest will be added)
 
 ### To-do
 - [x] Improve liking system.
