@@ -1,6 +1,6 @@
 ### Recipe App
 
-Single‐page web application which allows users to manage their favorite recipes. Used a dashboard to show all available recipes and the actions to create, update and delete a recipe.
+Single‐page web application which allows users to manage their favorite recipes and login/register via Firebase. Used a dashboard to show all available recipes and the actions to create, update, delete and like a recipe.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/de5051b6-244d-423c-b8fa-aa6323b83ff1/deploy-status)](https://app.netlify.com/sites/gracious-bhabha-1f6f7b/deploys)
 
