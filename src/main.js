@@ -3,7 +3,6 @@ import { mapActions, mapGetters } from "vuex";
 import firebase from "firebase/app";
 import "firebase/auth";
 import VueOffline from "vue-offline";
-import VueVirtualScroller from "vue-virtual-scroller";
 
 import router from "./router";
 import App from "./App.vue";
@@ -17,10 +16,8 @@ import DialogCmp from "@/components/Shared/MainDialog.vue";
 import AppListItemCmp from "@/components/Shared/Lists/AppListItem.vue";
 
 Vue.use(VueOffline);
-Vue.use(VueVirtualScroller);
 
 Vue.config.productionTip = false;
-Vue.component("RecycleScroller", VueVirtualScroller.RecycleScroller);
 Vue.component("app-alert", AlertCmp);
 Vue.component("main-dialog", DialogCmp);
 Vue.component("app-list-item", AppListItemCmp);
