@@ -1,5 +1,7 @@
 ### Recipe App
 
+Single‐page web application which allows users to manage their favorite recipes. Used a dashboard to show all available recipes and the actions to create, update and delete a recipe.
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/de5051b6-244d-423c-b8fa-aa6323b83ff1/deploy-status)](https://app.netlify.com/sites/gracious-bhabha-1f6f7b/deploys)
 
 
@@ -17,7 +19,7 @@ npm run serve
 - The application is now running at [http://localhost:8080](http://localhost:8080)
 
 ## Conclusions
-I ended up spending a total of around 6 hours on this assignment.
+This project at first was an assigment which I ended up spending a total of around 6 hours and later on become my own project 😄
 
 After performing this assignment, I realized that the JS community is moving very fast toward TypeScript, yet traditional tools are still widely used. These tools are not well-adapted to use TypeScript. This can especially be felt when performing tests. Good examples are Mongoose and barebones Express which are very hard to interface with testing frameworks. Using TypeScript-era tooling makes testing a lot easier. Although I'm not familiar with TypeScript I'm ready to learn and adapt.
 
@@ -32,11 +34,12 @@ After performing this assignment, I realized that the JS community is moving ver
 
 - **Run mode:** The application runs in development mode. In a production-ready application, I would set up configurations for different environments, and utilize environment variables.
 
-- **Testing:** Due to limited time, I did not cover the application with tests. However, it is something I'm willing to work on as well as learn and adapt.
+- **Testing:** Work in progress (Jest wil; be added)
 
 ### To-do
 - [ ] Improve liking system.
-- [ ] Improve recipe list rendering time [in case there is a lot of recipes].
+- [x] Improve recipe list rendering time [in case there is a lot of recipes] result: will be using Vuetify deafult feature.
+- [ ] Add unit testing (Jest).
 
 ### Demo images
 ![Stock list](image-login.png)
