@@ -25,12 +25,12 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["loggedIn"])
+    ...mapGetters(["isLoggedIn"])
   },
   methods: {
     ...mapActions(["setDialog", "setError"]),
     onClick() {
-      if (!this.loggedIn) {
+      if (!this.isLoggedIn) {
         return this.setError({
           message: "You must login before trying to do any actions!",
           type: "error"

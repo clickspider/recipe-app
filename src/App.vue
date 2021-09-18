@@ -23,10 +23,10 @@ export default {
     MainNav
   },
   computed: {
-    ...mapGetters(["isLoading", "dialog", "loggedIn"])
+    ...mapGetters(["isLoading", "dialog", "isLoggedIn"])
   },
   watch: {
-    loggedIn(isLoggedIn) {
+    isLoggedIn(isLoggedIn) {
       if (isLoggedIn) return this.$router.push({ name: "Dashboard" });
     }
   },

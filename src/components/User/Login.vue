@@ -94,7 +94,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isLoading", "alert", "loggedIn"])
+    ...mapGetters(["isLoading", "alert", "isLoggedIn"])
   },
   methods: {
     ...mapActions(["signUserIn", "clearAlert", "googleSignUserIn"]),

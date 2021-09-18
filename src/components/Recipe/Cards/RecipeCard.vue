@@ -7,7 +7,7 @@
     @dblclick="onLike(recipe)"
   >
     <v-img
-      v-if="loggedIn"
+      v-if="isLoggedIn"
       src="https://www.freeiconspng.com/thumbs/heart-icon/heart-icon-14.png"
       large
       class="heart-icon"
@@ -50,7 +50,7 @@
         icon
         large
         color="red"
-        v-if="loggedIn && !isLiked"
+        v-if="isLoggedIn && !isLiked"
         @click="onLike(recipe)"
       >
         <v-icon>mdi-heart-outline</v-icon>
@@ -61,11 +61,11 @@
         large
         color="red"
         @click="onDislike(recipe)"
-        v-if="loggedIn && isLiked"
+        v-if="isLoggedIn && isLiked"
       >
         <v-icon>mdi-heart</v-icon>
       </v-btn>
-      <v-btn icon large color="red" v-if="!loggedIn" @click="onLike(recipe)">
+      <v-btn icon large color="red" v-if="!isLoggedIn" @click="onLike(recipe)">
         <v-icon color="red">mdi-heart</v-icon>
       </v-btn>
       <span class="mx-1">{{ recipe.likes }} Likes</span>
@@ -131,16 +131,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isLoading", "loggedIn", "user"]),
+    ...mapGetters(["isLoading", "isLoggedIn", "user"]),
     userIsCreator() {
-      if (!this.loggedIn) {
+      if (!this.isLoggedIn) {
         return false;
       }
       return this.user.id === this.recipe.creatorId;
     },
 
     isLiked() {
-      if (!this.loggedIn) {
+      if (!this.isLoggedIn) {
         return false;
       }
       const index = this.user.favRecipes.findIndex(
@@ -176,7 +176,7 @@ export default {
 
     async onLike(recipe) {
       this.heartActive = true;
-      if (!this.loggedIn) {
+      if (!this.isLoggedIn) {
         return this.setError({
           message: "You must login before trying to do any actions!",
           type: "error"

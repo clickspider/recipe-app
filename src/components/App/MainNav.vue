@@ -1,11 +1,11 @@
 <template>
   <v-navigation-drawer v-model="getDrawer" fixed left temporary color="#F9F5F3">
     <v-list nav dense>
-      <v-list-item-group v-if="loggedIn" active-class="text--accent-4">
+      <v-list-item-group v-if="isLoggedIn" active-class="text--accent-4">
         <app-list-item
-          v-for="loggedInItem in loggedInListItems"
-          :key="loggedInItem.title"
-          :item="loggedInItem"
+          v-for="isLoggedInItem in loggedInListItems"
+          :key="isLoggedInItem.title"
+          :item="isLoggedInItem"
         />
       </v-list-item-group>
 
@@ -40,7 +40,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["loggedIn", "drawer"]),
+    ...mapGetters(["isLoggedIn", "drawer"]),
     getDrawer: {
       get() {
         return this.drawer;

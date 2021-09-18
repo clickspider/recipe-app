@@ -1,7 +1,7 @@
 <template>
   <section class="text-center">
     <v-alert border="top" color="#f48982" dark dismissible>
-      <p class="mb-0" v-if="!loggedIn">
+      <p class="mb-0" v-if="!isLoggedIn">
         Welcome to the Recipe App! <br />
         Please login/register to have access to all the features!
       </p>
@@ -23,7 +23,7 @@ export default {
     Recipes
   },
   computed: {
-    ...mapGetters(["loggedIn"])
+    ...mapGetters(["isLoggedIn"])
   }
 };
 </script>

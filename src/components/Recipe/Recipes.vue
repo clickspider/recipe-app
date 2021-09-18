@@ -36,7 +36,7 @@ export default {
     CreateButton
   },
   computed: {
-    ...mapGetters(["recipes", "isLoading", "loggedIn"])
+    ...mapGetters(["recipes", "isLoading", "isLoggedIn"])
   }
 };
 </script>

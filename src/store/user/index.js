@@ -196,6 +196,6 @@ export default {
   getters: {
     // Use this to get stored data and change it
     user: state => state.user,
-    loggedIn: state => state.user !== null && state.user !== undefined
+    isLoggedIn: state => state.user !== null && state.user !== undefined
   }
 };

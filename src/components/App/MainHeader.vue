@@ -17,7 +17,7 @@
 
     <v-spacer />
     <div class="flex-wrap">
-      <div v-if="loggedIn">
+      <div v-if="isLoggedIn">
         <v-btn
           :loading="isLoading"
           :disabled="isLoading"
@@ -32,7 +32,7 @@
           </template>
         </v-btn>
 
-        <v-btn class="btn-primary" @click="onLogOut">
+        <v-btn class="btn-primary" @click="logUserOut">
           Logout
         </v-btn>
       </div>
@@ -67,15 +67,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["loggedIn", "isLoading", "drawer"])
+    ...mapGetters(["isLoggedIn", "isLoading", "drawer"])
   },
 
   methods: {
-    ...mapActions(["setDrawer", "logUserOut"]),
-
-    onLogOut() {
-      this.logUserOut();
-    }
+    ...mapActions(["setDrawer", "logUserOut"])
   }
 };
 </script>

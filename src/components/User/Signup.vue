@@ -102,7 +102,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "isLoading", "loggedIn"]),
+    ...mapGetters(["user", "isLoading", "isLoggedIn"]),
     comparePasswords() {
       return this.password !== this.confirmPassword
         ? "Passwords do not match"
