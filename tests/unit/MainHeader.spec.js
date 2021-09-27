@@ -4,17 +4,17 @@ import VueRouter from "vue-router";
 import MainHeader from "../../src/components/App/MainHeader.vue";
 
 const localVue = createLocalVue();
-localVue.use(Vuex);
-
 const router = new VueRouter();
 
+localVue.use(Vuex);
+localVue.use(VueRouter);
+
 describe("MainHeader.vue", () => {
-  let store;
-  let getters;
+  let store, getters, wrapper;
 
   beforeEach(() => {
     getters = {
-      isLoggedIn: () => false,
+      isLoggedIn: () => true,
       isLoading: () => false,
       drawer: () => false
     };
@@ -22,14 +22,11 @@ describe("MainHeader.vue", () => {
     store = new Vuex.Store({
       getters
     });
-  });
 
-  it("If lodaer data changed expect a router.go() to be called", () => {
-    const wrapper = shallowMount(MainHeader, {
+    wrapper = shallowMount(MainHeader, {
       localVue,
-      data: () => ({ loader: null }),
-      store,
       router,
+      store,
       stubs: [
         "v-btn",
         "v-img",
@@ -37,10 +34,16 @@ describe("MainHeader.vue", () => {
         "router-link",
         "v-app-bar-nav-icon",
         "v-app-bar"
-      ]
+      ],
+      data: () => ({
+        loader: null
+      })
     });
+  });
+
+  it("If user is loggedIn and button reload was clicked expect a router.go() to be called", async () => {
     // if loader data is changed
-    wrapper.setData({ loader: true });
+    await wrapper.find("#btn-reload").trigger("click");
 
     // expect trigger router.go()
     const spy = spyOn(wrapper.vm.$router, "go");

@@ -22,7 +22,8 @@
           :loading="isLoading"
           :disabled="isLoading"
           class="btn-primary mr-5 mr-sm-5"
-          @click="loader = 'loading'"
+          id="btn-reload"
+          @click="$router.go()"
         >
           Reload <v-icon>mdi-reload</v-icon>
           <template v-slot:loader>
@@ -55,17 +56,6 @@ import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 
 export default {
-  data() {
-    return {
-      loader: null
-    };
-  },
-  watch: {
-    loader() {
-      this.$router.go();
-    }
-  },
-
   computed: {
     ...mapGetters(["isLoggedIn", "isLoading", "drawer"])
   },
