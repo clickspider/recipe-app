@@ -33,19 +33,13 @@
           </template>
         </v-btn>
 
-        <v-btn class="btn-primary" @click="logUserOut">
-          Logout
-        </v-btn>
+        <v-btn class="btn-primary" @click="logUserOut">Logout</v-btn>
       </div>
 
       <div v-else>
-        <v-btn class="btn-primary mr-5 mr-sm-5" to="/login">
-          Login
-        </v-btn>
-
-        <v-btn class="btn-primary" to="/signup">
-          signup
-        </v-btn>
+        <v-btn class="btn-primary mr-5 mr-sm-5" to="/">Dashboard</v-btn>
+        <v-btn class="btn-primary mr-5 mr-sm-5" to="/login">Login</v-btn>
+        <v-btn class="btn-primary" to="/signup">Signup</v-btn>
       </div>
     </div>
   </v-app-bar>
@@ -57,11 +51,11 @@ import { mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["isLoggedIn", "isLoading", "drawer"])
+    ...mapGetters(["isLoggedIn", "isLoading", "drawer"]),
   },
 
   methods: {
-    ...mapActions(["setDrawer", "logUserOut"])
-  }
+    ...mapActions(["setDrawer", "logUserOut"]),
+  },
 };
 </script>
