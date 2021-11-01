@@ -265,17 +265,17 @@ export default {
     },
 
     async addLikeCount({ commit }, payload) {
-      const recipe = { ...payload };
+      const updates = {};
       try {
-        recipe.likes += 1;
-        recipe.image = 0;
+        updates[
+          `recipes/${payload.id}/likes`
+        ] = firebase.database.ServerValue.increment(1);
 
         // Update props on the DB
-        await firebase
+        firebase
           .database()
-          .ref("recipes")
-          .child(payload.id)
-          .update(recipe);
+          .ref()
+          .update(updates);
 
         commit("addLikeCount", payload);
       } catch (err) {
@@ -284,17 +284,17 @@ export default {
     },
 
     async dislikeCount({ commit }, payload) {
-      const recipe = { ...payload };
+      const updates = {};
       try {
-        recipe.likes -= 1;
-        recipe.image = 0;
+        updates[
+          `recipes/${payload.id}/likes`
+        ] = firebase.database.ServerValue.increment(-1);
 
         // Update props on the DB
-        await firebase
+        firebase
           .database()
-          .ref("recipes")
-          .child(payload.id)
-          .update(recipe);
+          .ref()
+          .update(updates);
         commit("dislikeCount", payload);
       } catch (err) {
         commit("setAlert", { message: err.message, type: "error" });

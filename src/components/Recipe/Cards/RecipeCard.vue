@@ -1,7 +1,7 @@
 <template>
   <v-card
     color="#F9F5F3"
-    style="cursor: pointer; position: relative;"
+    style="cursor: pointer; position: relative"
     :loading="isLoading || isCardLoading"
     :disabled="isLoading || isCardLoading"
     @dblclick="onLike(recipe)"
