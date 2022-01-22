@@ -1,6 +1,6 @@
 {
   "name": "recipe-app",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": true,
   "scripts": {
     "serve": "npm outdated & vue-cli-service serve --host localhost",
@@ -9,7 +9,7 @@
     "ut": "echo hi"
   },
   "gitHooks": {
-    "pre-commit": "vue-cli-service lint --no-fix && npm run ut"
+    "pre-commit": "npm run lint-fix && npm run ut"
   },
   "dependencies": {
     "core-js": "^3.17.3",
