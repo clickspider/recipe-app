@@ -19,7 +19,7 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["alert"]),
+    ...mapGetters(["alert"])
   },
   watch: {
     alert: {
@@ -29,15 +29,15 @@ export default {
           this.clearAlert();
         }, 6000);
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     ...mapActions(["clearAlert"]),
     onClose() {
       this.$emit("dismissed");
-    },
-  },
+    }
+  }
 };
 </script>
 
