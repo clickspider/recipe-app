@@ -137,21 +137,21 @@ export default {
       likes: 0
     },
     rules: {
-      url: [v => !!v || "Url is required"],
+      url: [(v) => !!v || "Url is required"],
       label: [
-        v => !!v || "Headline is required",
-        v => !v || v.length >= 3 || "Minimum length is 3 characters"
+        (v) => !!v || "Headline is required",
+        (v) => !v || v.length >= 3 || "Minimum length is 3 characters"
       ],
       ingredients: [
-        v => !!v || "Ingredient is required",
-        v => !v || v.length >= 3 || "Minimum length is 3 characters"
+        (v) => !!v || "Ingredient is required",
+        (v) => !v || v.length >= 3 || "Minimum length is 3 characters"
       ],
-      numOfPeople: [v => !!v || "This feild is required"],
-      vegetarian: [v => !!v || "This feild is required"],
+      numOfPeople: [(v) => !!v || "This feild is required"],
+      vegetarian: [(v) => !!v || "This feild is required"],
       image: [
-        v => !!v || "Image is required!",
-        v => !v || v.size < 2000000 || "Avatar size should be less than 2 MB!",
-        v => !v || !v.type || v.type.match("image.*") || "Images only!"
+        (v) => !!v || "Image is required!",
+        (v) => !v || v.size < 2000000 || "Avatar size should be less than 2 MB!",
+        (v) => !v || !v.type || v.type.match("image.*") || "Images only!"
       ]
     }
   }),

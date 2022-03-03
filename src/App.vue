@@ -76,18 +76,10 @@ export default {
 }
 
 .color-primary {
-  background-image: linear-gradient(
-    to right bottom,
-    #fbdb89,
-    #f48982
-  ) !important;
+  background-image: linear-gradient(to right bottom, #fbdb89, #f48982) !important;
 }
 
 .theme--light.v-application {
-  background-image: linear-gradient(
-    to right bottom,
-    #fbdb89,
-    #f48982
-  ) !important;
+  background-image: linear-gradient(to right bottom, #fbdb89, #f48982) !important;
 }
 </style>

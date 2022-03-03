@@ -16,7 +16,7 @@ export default {
     likeRecipe(state, payload) {
       const { id } = payload;
       const { favRecipes } = state.user;
-      if (state.user.favRecipes.findIndex(recipe => recipe.id === id) >= 0) {
+      if (state.user.favRecipes.findIndex((recipe) => recipe.id === id) >= 0) {
         return;
       }
       favRecipes.push(payload);
@@ -24,7 +24,7 @@ export default {
     dislikeRecipe(state, payload) {
       const { favRecipes } = state.user;
       favRecipes.splice(
-        favRecipes.findIndex(recipe => recipe.id === payload.id),
+        favRecipes.findIndex((recipe) => recipe.id === payload.id),
         1
       );
     },
@@ -96,7 +96,7 @@ export default {
 
     async dislikeRecipe({ commit, getters }, payload) {
       const { user } = getters;
-      const recipe = user.favRecipes.find(item => item.id === payload.id);
+      const recipe = user.favRecipes.find((item) => item.id === payload.id);
       if (!recipe.fbKey) {
         const err = "Can't like a recipe without a FbKey";
         commit("setAlert", { message: err });
@@ -195,7 +195,7 @@ export default {
 
   getters: {
     // Use this to get stored data and change it
-    user: state => state.user,
-    loggedIn: state => state.user !== null && state.user !== undefined
+    user: (state) => state.user,
+    loggedIn: (state) => state.user !== null && state.user !== undefined
   }
 };

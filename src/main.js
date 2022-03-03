@@ -26,14 +26,9 @@ new Vue({
   store,
   router,
   vuetify,
-  render: h => h(App),
+  render: (h) => h(App),
   methods: {
-    ...mapActions([
-      "retrieveRecipes",
-      "autoSignin",
-      "clearSuccess",
-      "fetchUserData"
-    ])
+    ...mapActions(["retrieveRecipes", "autoSignin", "clearSuccess", "fetchUserData"])
   },
 
   computed: {
@@ -41,7 +36,7 @@ new Vue({
   },
   created() {
     firebase.initializeApp(firebaseConfig);
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.autoSignin(user);
         this.fetchUserData();

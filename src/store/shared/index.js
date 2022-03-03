@@ -74,12 +74,12 @@ export default {
 
   getters: {
     // Use this to get stored data and change it
-    isLoading: state => state.isLoading,
+    isLoading: (state) => state.isLoading,
 
-    drawer: state => state.drawer,
+    drawer: (state) => state.drawer,
 
-    alert: state => state.alert,
+    alert: (state) => state.alert,
 
-    dialog: state => state.dialog
+    dialog: (state) => state.dialog
   }
 };

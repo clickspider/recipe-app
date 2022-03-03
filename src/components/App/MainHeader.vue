@@ -4,14 +4,14 @@
 
     <div class="d-flex align-center">
       <router-link to="/">
-        <v-img
+        <v-icon
           alt="LOGO"
-          class="shrink mr-2 d-none d-md-block"
+          class="logo shrink mr-2 d-none d-md-block"
           contain
-          src="http://forkify.netlify.com/img/logo.png"
           transition="scale-transition"
-          width="140"
-        />
+        >
+          $logo
+        </v-icon>
       </router-link>
     </div>
 
@@ -32,19 +32,13 @@
           </template>
         </v-btn>
 
-        <v-btn class="btn-primary" @click="onLogOut">
-          Logout
-        </v-btn>
+        <v-btn class="btn-primary" @click="onLogOut"> Logout </v-btn>
       </div>
 
       <div v-else>
-        <v-btn class="btn-primary mr-5 mr-sm-5" to="/login">
-          Login
-        </v-btn>
+        <v-btn class="btn-primary mr-5 mr-sm-5" to="/login"> Login </v-btn>
 
-        <v-btn class="btn-primary" to="/signup">
-          signup
-        </v-btn>
+        <v-btn class="btn-primary" to="/signup"> signup </v-btn>
       </div>
     </div>
   </v-app-bar>
@@ -79,3 +73,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.logo {
+  .v-icon__component {
+    width: 130px;
+    height: 130px;
+  }
+}
+</style>

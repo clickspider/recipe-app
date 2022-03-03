@@ -73,7 +73,7 @@ export default {
     },
 
     updateRecipe(state, payload) {
-      const index = state.recipes.findIndex(item => item.id === payload.id);
+      const index = state.recipes.findIndex((item) => item.id === payload.id);
       if (index !== -1) {
         state.recipes.splice(index, 1, payload);
       } else {
@@ -86,7 +86,7 @@ export default {
     },
 
     deleteRecipe(state, payload) {
-      const index = state.recipes.findIndex(item => item === payload);
+      const index = state.recipes.findIndex((item) => item === payload);
       if (index !== -1) {
         state.recipes.splice(index, 1);
       } else {
@@ -99,7 +99,7 @@ export default {
     },
 
     addLikeCount(state, payload) {
-      const findIndex = state.recipes.findIndex(el => el.id === payload.id);
+      const findIndex = state.recipes.findIndex((el) => el.id === payload.id);
       if (findIndex !== -1) {
         state.recipes[findIndex].likes += 1;
       } else {
@@ -108,7 +108,7 @@ export default {
     },
 
     dislikeCount(state, payload) {
-      const findIndex = state.recipes.findIndex(el => el.id === payload.id);
+      const findIndex = state.recipes.findIndex((el) => el.id === payload.id);
       if (findIndex !== -1) {
         state.recipes[findIndex].likes -= 1;
       } else {
@@ -305,8 +305,8 @@ export default {
 
   getters: {
     // Use this to get stored data and change it
-    recipes: state => state.recipes,
-    editRecipe: state => state.editRecipe,
-    recipeToDelete: state => state.recipeToDelete
+    recipes: (state) => state.recipes,
+    editRecipe: (state) => state.editRecipe,
+    recipeToDelete: (state) => state.recipeToDelete
   }
 };

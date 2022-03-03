@@ -144,7 +144,7 @@ export default {
         return false;
       }
       const index = this.user.favRecipes.findIndex(
-        recipe => recipe.id === this.recipe.id
+        (recipe) => recipe.id === this.recipe.id
       );
       return index !== -1 ? true : false;
     },

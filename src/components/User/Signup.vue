@@ -109,9 +109,7 @@ export default {
         : true;
     },
     emptyField() {
-      return this.password === "" &&
-        this.email === "" &&
-        this.confirmPassword === ""
+      return this.password === "" && this.email === "" && this.confirmPassword === ""
         ? "This field is required"
         : true;
     }

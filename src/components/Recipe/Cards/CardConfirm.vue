@@ -7,13 +7,9 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn color="error" text @click="onCancel">
-        Disagree
-      </v-btn>
+      <v-btn color="error" text @click="onCancel"> Disagree </v-btn>
 
-      <v-btn color="green darken-1" text @click="onDelete">
-        Agree
-      </v-btn>
+      <v-btn color="green darken-1" text @click="onDelete"> Agree </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -26,12 +22,7 @@ export default {
     ...mapGetters(["recipeToDelete"])
   },
   methods: {
-    ...mapActions([
-      "deleteRecipe",
-      "setDialog",
-      "clearDialog",
-      "setDeleteRecipe"
-    ]),
+    ...mapActions(["deleteRecipe", "setDialog", "clearDialog", "setDeleteRecipe"]),
     onDelete() {
       this.deleteRecipe(this.recipeToDelete);
       this.clearDialog();
